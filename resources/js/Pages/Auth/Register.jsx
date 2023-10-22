@@ -32,7 +32,7 @@ export default function Register({ switchView }) {
     return (
         <>
             <Head title="Register" />
-            <div className="relative gap-4 flex justify-center items-center min-h-screen bg-dots-darker bg-center bg-gray-100 dark:bg-dots-lighter dark:bg-gray-900 selection:bg-red-500 selection:text-white ">                
+            {/* <div className="relative gap-4 flex justify-center items-center min-h-screen bg-dots-darker bg-center bg-gray-100 dark:bg-dots-lighter dark:bg-gray-900 selection:bg-red-500 selection:text-white ">                
                 <div className='bg-white flex justify-center items-center w-full md:w-[60%] rounded-3xl p-4 border'>
                     <div className="flex items-center flex-col gap-4 h-full max-w-full md:w-[50%] bg-[#3b37ff] rounded-2xl p-6">
                         <div className="flex w-full">
@@ -62,7 +62,7 @@ export default function Register({ switchView }) {
                             className="flex underline text-sm font-bold mb-4 w-fit text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 text-left"
                         >
                             Have an Account ? ‎ <p className='text-[#3b37ff]'> Login </p>
-                        </button>       
+                        </button>        */}
                         <form onSubmit={submit}>
                             <div className='flex gap-4 w-full'>            
                                 <div>
@@ -174,10 +174,10 @@ export default function Register({ switchView }) {
                                 </PrimaryButton>             
                             </div>                            
                         </form>
-                    </div>
+                    {/* </div>
                 </div>
             </div>
-            
+             */}
         </>
     );
 }
