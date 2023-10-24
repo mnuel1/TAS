@@ -150,14 +150,14 @@ export default function Authenticated({ user, header, children }) {
                 <hr className="my-6 border-blue-gray-50" />
 
                 <List>
-                    <NavLink href={route('dashboard')} active={route().current('dashboard')}>
+                    {/* <NavLink href={route('dashboard')} active={route().current('dashboard')}>
                         <ListItem>
                             <ListItemPrefix>
                                 <PresentationChartBarIcon className="h-5 w-5" />
                             </ListItemPrefix>                            
                                 Dashboard
                         </ListItem>
-                    </NavLink>
+                    </NavLink> */}
                                         
                    
                     <NavLink href={route('appointment')} active={route().current('appointment')}>

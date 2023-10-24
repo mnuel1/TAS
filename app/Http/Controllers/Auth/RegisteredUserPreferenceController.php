@@ -6,7 +6,6 @@ use App\Rules\BirthdayRule;
 use App\Rules\NumberRule;
 use App\Http\Controllers\Controller;
 use App\Models\User;
-use App\Models\UserPreference;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
@@ -35,31 +34,20 @@ class RegisteredUserController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:'.User::class,            
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
-            'birthday' => 'required|string|max:255',
-            'number' => 'required|string|max:255',
+            'pickup_loc' => 'required|string|max:255',
+            'dropoff_loc' => 'required|string|max:255',
+            'email_notif' => 'required|string|max:255',
+            'sms_notif' => 'required|string|max:255',            
             
         ]);
 
         $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'birthday' => $request->birthday,
-            'number' => $request->number,
+            'pickup_loc' => $request->pickup_loc,
+            'dropoff_loc' => $request->dropoff_loc,
+            'email_notif' => $request->email_notif,
+            'sms_notif' => $request->sms_notif,
+            // 'number' => $request->number,
         ]);
-
-        // Create the user's initial user preference
-        $userPreference = new UserPreference();
-        $userPreference->user_id = $user->id; 
-        $userPreference->user_preferred_vehicles_id = null; 
-        $userPreference->pickup_loc = 'default_pickup_location';
-        $userPreference->dropoff_loc = 'default_dropoff_location';
-        $userPreference->email_notif = true;
-        $userPreference->sms_notif = true;
-        $userPreference->save();
 
         event(new Registered($user));
         
