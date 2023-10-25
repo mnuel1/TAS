@@ -17,7 +17,8 @@ use Inertia\Inertia;
 use Inertia\Response;
 
 class RegisteredUserController extends Controller
-{
+{   
+    
     /**
      * Display the registration view.
      */
@@ -36,8 +37,8 @@ class RegisteredUserController extends Controller
         $request->validate([
             'pickup_loc' => 'required|string|max:255',
             'dropoff_loc' => 'required|string|max:255',
-            'email_notif' => 'required|string|max:255',
-            'sms_notif' => 'required|string|max:255',            
+            'email_notif' => 'required|boolean',
+            'sms_notif' => 'required|boolean',
             
         ]);
 
