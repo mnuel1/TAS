@@ -6,6 +6,7 @@ import InputLabel from '@/Components/InputLabel';
 import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from '@/Components/TextInput';
 import { Head, Link, useForm } from '@inertiajs/react';
+import ApplicationLogo from '@/Components/ApplicationLogo';
 
 export default function Login({ status, canResetPassword, switchView  }) {
     const { data, setData, post, processing, errors, reset } = useForm({
@@ -35,9 +36,10 @@ export default function Login({ status, canResetPassword, switchView  }) {
                    
                     
                     <div className="hidden items-center justify-center flex-col p-6 md:flex w-full h-full ">
-                    <h1 className='text-3xl md:text-5xl font-extrabold text-left text-black mb-4'>TITLE</h1>
+                    
+                        <ApplicationLogo className="block h-9 w-auto fill-current text-gray-800" />
                         <img src="https://cdn.dribbble.com/users/836931/screenshots/2753936/media/8fc47ac5ab4384635552133aa135744b.png?resize=800x600&vertical=center" alt="" 
-                        className='border-2 rounded-xl'
+                        className='rounded-xl'
                         style={{
                             width: '650px', 
                             height: 'auto',  

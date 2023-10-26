@@ -32,9 +32,7 @@ class HandleInertiaRequests extends Middleware
     {
         $user = $request->user();
         $userPreference = $user ? $user->preference : null;
-        // dd($user->preference);
-        // dd($user);
-
+        
         return [
             ...parent::share($request),
             'auth' => [

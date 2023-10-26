@@ -30,19 +30,12 @@ class AuthenticatedSessionController extends Controller
     /**
      * Handle an incoming authentication request.
      */
-    public function store(LoginRequest $request, $user): RedirectResponse
+    public function store(LoginRequest $request): RedirectResponse
     {
         $request->authenticate();
 
         $request->session()->regenerate();
-
-        // Load the user preferences for the authenticated user
-        $user->load('userPreference');
-
-        // // Pass the user and their preferences to the Inertia view
-        // return Inertia::render('Dashboard', [
-        //     'user' => $user,
-        // ]);
+     
         return redirect()->intended(RouteServiceProvider::HOME);
     }
 

@@ -2,8 +2,12 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head } from '@inertiajs/react';
 import { VehicleCard } from '@/Components/VehiclesCard';
 import React,{ useState } from 'react';
+import { Pagination } from '@/Components/Pagination';
+
 
 export default function Appointment({ auth }) {
+    const [activePage, setActivePage] = useState(1); // Initialize the active page
+
     const [notifications, setNotifications] = useState([
         {
             id: 1,
@@ -20,31 +24,40 @@ export default function Appointment({ auth }) {
         // Add more notifications as needed
     ]);
     const [filter, setFilter] = useState("all");
+
     // retrieved vehicles
     const vehicles = [
-        { title: 'SUV', rate: '30', description: 'Spacious utility vehicle', isPreferred: false, imgLink: 'suv.jpg' },
-        { title: 'Truck', rate: '35', description: 'Heavy-duty truck', isPreferred: true, imgLink: 'truck.jpg' },
-        { title: 'Motorcycle', rate: '15', description: 'Two-wheeler', isPreferred: false, imgLink: 'motorcycle.jpg' },
-        { title: 'Bicycle', rate: '10', description: 'Eco-friendly transportation', isPreferred: true, imgLink: 'bicycle.jpg' },
-        { title: 'Compact Car', rate: '25', description: 'Efficient city car', isPreferred: false, imgLink: 'compact_car.jpg' },
-        { title: 'Van', rate: '40', description: 'Versatile van', isPreferred: true, imgLink: 'van.jpg' },
-        { title: 'Electric Scooter', rate: '20', description: 'Economical scooter', isPreferred: false, imgLink: 'electric_scooter.jpg' },
-        { title: 'Luxury Sedan', rate: '50', description: 'Premium sedan', isPreferred: true, imgLink: 'luxury_sedan.jpg' },
-        { title: 'Mountain Bike', rate: '15', description: 'Off-road bicycle', isPreferred: false, imgLink: 'mountain_bike.jpg' },
-        { title: 'Convertible', rate: '45', description: 'Open-top sports car', isPreferred: true, imgLink: 'convertible.jpg' },
-        { title: 'Delivery Truck', rate: '35', description: 'Cargo delivery truck', isPreferred: false, imgLink: 'delivery_truck.jpg' },
-        { title: 'Electric Car', rate: '30', description: 'Environmentally friendly car', isPreferred: true, imgLink: 'electric_car.jpg' },
-        { title: 'Hybrid Bike', rate: '18', description: 'Pedal-assist bicycle', isPreferred: false, imgLink: 'hybrid_bike.jpg' },
-        { title: 'Pickup Truck', rate: '40', description: 'Versatile pickup truck', isPreferred: true, imgLink: 'pickup_truck.jpg' },
-        { title: 'Classic Car', rate: '60', description: 'Vintage classic car', isPreferred: false, imgLink: 'classic_car.jpg' },
-        { title: 'Moped', rate: '25', description: 'Small motorized scooter', isPreferred: true, imgLink: 'moped.jpg' },
-        { title: 'Sports Bike', rate: '45', description: 'High-performance motorcycle', isPreferred: false, imgLink: 'sports_bike.jpg' },
-        { title: 'Compact SUV', rate: '30', description: 'Small SUV', isPreferred: true, imgLink: 'compact_suv.jpg' },
-        { title: 'Limousine', rate: '70', description: 'Luxury chauffeured car', isPreferred: true, imgLink: 'limousine.jpg' },
-        { title: 'Cruiser Bike', rate: '20', description: 'Comfortable cruiser bicycle', isPreferred: false, imgLink: 'cruiser_bike.jpg' },
+        { model: 'SUV', driver: 'John', rate: '30', ratings: 4.5, img: 'suv.jpg', description: 'Spacious utility vehicle' },
+        { model: 'Truck', driver: 'Mike', rate: '35', ratings: 4.2, img: 'truck.jpg', description: 'Heavy-duty truck' },
+        { model: 'Motorcycle', driver: 'Sarah', rate: '15', ratings: 4.8, img: 'motorcycle.jpg', description: 'Two-wheeler' },
+        { model: 'Bicycle', driver: 'Chris', rate: '10', ratings: 4.9, img: 'bicycle.jpg', description: 'Eco-friendly transportation' },
+        { model: 'Compact Car', driver: 'Alex', rate: '25', ratings: 4.7, img: 'compact_car.jpg', description: 'Efficient city car' },
+        { model: 'Van', driver: 'Emily', rate: '40', ratings: 4.3, img: 'van.jpg', description: 'Versatile van' },
+        { model: 'Electric Scooter', driver: 'Daniel', rate: '20', ratings: 4.6, img: 'electric_scooter.jpg', description: 'Economical scooter' },
+        { model: 'Luxury Sedan', driver: 'Olivia', rate: '50', ratings: 4.1, img: 'luxury_sedan.jpg', description: 'Premium sedan' },
+        { model: 'Mountain Bike', driver: 'Michael', rate: '15', ratings: 4.8, img: 'mountain_bike.jpg', description: 'Off-road bicycle' },
+        { model: 'Convertible', driver: 'Sophia', rate: '45', ratings: 4.0, img: 'convertible.jpg', description: 'Open-top sports car' },
+        { model: 'Delivery Truck', driver: 'Lucas', rate: '35', ratings: 4.3, img: 'delivery_truck.jpg', description: 'Cargo delivery truck' },
+        { model: 'Electric Car', driver: 'Ava', rate: '30', ratings: 4.5, img: 'electric_car.jpg', description: 'Environmentally friendly car' },
+        { model: 'Hybrid Bike', driver: 'Liam', rate: '18', ratings: 4.9, img: 'hybrid_bike.jpg', description: 'Pedal-assist bicycle' },
+        { model: 'Pickup Truck', driver: 'Mia', rate: '40', ratings: 4.2, img: 'pickup_truck.jpg', description: 'Versatile pickup truck' },
+        { model: 'Classic Car', driver: 'Noah', rate: '60', ratings: 4.1, img: 'classic_car.jpg', description: 'Vintage classic car' },
+        { model: 'Moped', driver: 'Chloe', rate: '25', ratings: 4.6, img: 'moped.jpg', description: 'Small motorized scooter' },
+        { model: 'Sports Bike', driver: 'Ethan', rate: '45', ratings: 4.2, img: 'sports_bike.jpg', description: 'High-performance motorcycle' },
+        { model: 'Compact SUV', driver: 'Aria', rate: '30', ratings: 4.4, img: 'compact_suv.jpg', description: 'Small SUV' },
+        { model: 'Limousine', driver: 'William', rate: '70', ratings: 4.0, img: 'limousine.jpg', description: 'Luxury chauffeured car' },
+        { model: 'Cruiser Bike', driver: 'Avery', rate: '20', ratings: 4.7, img: 'cruiser_bike.jpg', description: 'Comfortable cruiser bicycle' },
       ];
       
-      
+    // Determine the range of vehicles to display on the current page
+    const vehiclesPerPage = 6; // Number of vehicles to display per page
+    const startIndex = (activePage - 1) * vehiclesPerPage;
+    const endIndex = Math.min(startIndex + vehiclesPerPage, vehicles.length); // Ensure endIndex doesn't exceed the number of vehicles
+    console.log(activePage);
+    const visibleVehicles = vehicles.slice(startIndex, endIndex);
+
+    console.log(visibleVehicles);
+   
 
     const markAsRead = (id) => {
         const updatedNotifications = notifications.map((notification) =>
@@ -124,13 +137,20 @@ export default function Appointment({ auth }) {
                                 See History
                                 </button>
                             </div>
-
+                            
                             <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg flex flex-wrap justify-between">
-                                {vehicles.map((vehicle, index) => (
-                                    <div key={index} className="inline-block mr-4 mb-4">
-                                        <VehicleCard title={vehicle.title} rate={vehicle.rate} description={vehicle.description} isPreferred={vehicle.isPreferred} imgLink={vehicle.imgLink} />
+                                {visibleVehicles.map((vehicle, index) => (
+                                    <div key={index} className="inline-block mr-4 mb-4">                                        
+                                        <VehicleCard model={vehicle.model} driver={vehicle.driver} 
+                                            rate={vehicle.rate} ratings={vehicle.ratings}
+                                            description={vehicle.description} imgLink={vehicle.imgLink} />
+                                            {/* isPreferred={vehicle.isPreferred} */}
                                     </div>
-                                ))}
+                                ))}                               
+                            </div>
+                            <div className="flex items-center justify-center ">
+
+                                <Pagination activePage={activePage} setActivePage={setActivePage} />
                             </div>
                         </div>
                     </div>
