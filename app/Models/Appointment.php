@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Appointment extends Model
 {
     use HasFactory;
-
+    protected $table = 'appointment';
     /**
      * The attributes that are mass assignable.
      *
@@ -19,6 +19,8 @@ class Appointment extends Model
         'vehicle_id',
         'start_appointment',
         'end_appointment',
+        'pickup_loc',
+        'dropoff_loc',
         
     ];
 
@@ -27,5 +29,10 @@ class Appointment extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function vehicle()
+    {
+        return $this->belongsTo(Vehicle::class);
     }
 }

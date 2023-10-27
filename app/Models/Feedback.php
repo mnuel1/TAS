@@ -29,4 +29,11 @@ class Feedback extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    // UserFeedback.php
+    public function vehicle()
+    {
+        return $this->belongsTo(Vehicle::class);
+    }
+
 }

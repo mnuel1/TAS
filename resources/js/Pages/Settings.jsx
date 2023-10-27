@@ -10,7 +10,7 @@ import { useForm, usePage } from '@inertiajs/react';
 export default function Settings({ auth }) {
 
     const user = usePage().props.auth.preference;
-    console.log(user);
+    
     const { data, setData, patch, errors, processing, recentlySuccessful } = useForm({
         dropoff_loc: user.dropoff_loc,
         pickup_loc: user.pickup_loc,

@@ -1,7 +1,15 @@
+
 import { Card, CardHeader, CardBody, CardFooter, Typography,  Button, Tooltip, IconButton, } from "@material-tailwind/react";
-import AppointmentForm from "@/Pages/Appoint/CreateAppointment";
 import { Link } from "@inertiajs/react";
-export function VehicleCard({ model, driver, rate, ratings, img, description}) {
+
+
+
+export function VehicleCard({ id, model, driver, rate, ratings, img, description}) {
+    
+    const vehicleData = {id:id, model : model, driver: driver, rate: rate, ratings: ratings, img: img, description:description }
+    const vehicleDataJSON = JSON.stringify(vehicleData);
+    
+    
     return (
         <Card className="w-full max-w-[26rem] shadow-lg">
             <CardHeader floated={false} color="blue-gray">
@@ -52,7 +60,7 @@ export function VehicleCard({ model, driver, rate, ratings, img, description}) {
                 </div>
             </CardBody>
             <CardFooter className="pt-3">
-                <Link>
+                <Link href={route('appoint.edit')} data={{vehicles:vehicleDataJSON}}>
                     <Button size="lg" fullWidth={true}> Make an Appointment </Button>
                 </Link>
             </CardFooter>            

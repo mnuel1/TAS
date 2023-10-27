@@ -18,6 +18,8 @@ return new class extends Migration
             $table->unsignedBigInteger('vehicles_id');
             $table->dateTime('start_appointment');
             $table->dateTime('end_appointment');
+            $table->string('pickup_loc');
+            $table->string('dropoff_loc');
             $table->timestamps();
 
 

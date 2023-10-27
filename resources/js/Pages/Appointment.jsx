@@ -3,7 +3,7 @@ import { Head } from '@inertiajs/react';
 import { VehicleCard } from '@/Components/VehiclesCard';
 import React,{ useState } from 'react';
 import { Pagination } from '@/Components/Pagination';
-
+import { usePage } from '@inertiajs/react';
 
 export default function Appointment({ auth }) {
     const [activePage, setActivePage] = useState(1); // Initialize the active page
@@ -24,30 +24,9 @@ export default function Appointment({ auth }) {
         // Add more notifications as needed
     ]);
     const [filter, setFilter] = useState("all");
-
-    // retrieved vehicles
-    const vehicles = [
-        { model: 'SUV', driver: 'John', rate: '30', ratings: 4.5, img: 'suv.jpg', description: 'Spacious utility vehicle' },
-        { model: 'Truck', driver: 'Mike', rate: '35', ratings: 4.2, img: 'truck.jpg', description: 'Heavy-duty truck' },
-        { model: 'Motorcycle', driver: 'Sarah', rate: '15', ratings: 4.8, img: 'motorcycle.jpg', description: 'Two-wheeler' },
-        { model: 'Bicycle', driver: 'Chris', rate: '10', ratings: 4.9, img: 'bicycle.jpg', description: 'Eco-friendly transportation' },
-        { model: 'Compact Car', driver: 'Alex', rate: '25', ratings: 4.7, img: 'compact_car.jpg', description: 'Efficient city car' },
-        { model: 'Van', driver: 'Emily', rate: '40', ratings: 4.3, img: 'van.jpg', description: 'Versatile van' },
-        { model: 'Electric Scooter', driver: 'Daniel', rate: '20', ratings: 4.6, img: 'electric_scooter.jpg', description: 'Economical scooter' },
-        { model: 'Luxury Sedan', driver: 'Olivia', rate: '50', ratings: 4.1, img: 'luxury_sedan.jpg', description: 'Premium sedan' },
-        { model: 'Mountain Bike', driver: 'Michael', rate: '15', ratings: 4.8, img: 'mountain_bike.jpg', description: 'Off-road bicycle' },
-        { model: 'Convertible', driver: 'Sophia', rate: '45', ratings: 4.0, img: 'convertible.jpg', description: 'Open-top sports car' },
-        { model: 'Delivery Truck', driver: 'Lucas', rate: '35', ratings: 4.3, img: 'delivery_truck.jpg', description: 'Cargo delivery truck' },
-        { model: 'Electric Car', driver: 'Ava', rate: '30', ratings: 4.5, img: 'electric_car.jpg', description: 'Environmentally friendly car' },
-        { model: 'Hybrid Bike', driver: 'Liam', rate: '18', ratings: 4.9, img: 'hybrid_bike.jpg', description: 'Pedal-assist bicycle' },
-        { model: 'Pickup Truck', driver: 'Mia', rate: '40', ratings: 4.2, img: 'pickup_truck.jpg', description: 'Versatile pickup truck' },
-        { model: 'Classic Car', driver: 'Noah', rate: '60', ratings: 4.1, img: 'classic_car.jpg', description: 'Vintage classic car' },
-        { model: 'Moped', driver: 'Chloe', rate: '25', ratings: 4.6, img: 'moped.jpg', description: 'Small motorized scooter' },
-        { model: 'Sports Bike', driver: 'Ethan', rate: '45', ratings: 4.2, img: 'sports_bike.jpg', description: 'High-performance motorcycle' },
-        { model: 'Compact SUV', driver: 'Aria', rate: '30', ratings: 4.4, img: 'compact_suv.jpg', description: 'Small SUV' },
-        { model: 'Limousine', driver: 'William', rate: '70', ratings: 4.0, img: 'limousine.jpg', description: 'Luxury chauffeured car' },
-        { model: 'Cruiser Bike', driver: 'Avery', rate: '20', ratings: 4.7, img: 'cruiser_bike.jpg', description: 'Comfortable cruiser bicycle' },
-      ];
+    
+    const { vehicles } = usePage().props;
+    console.log(vehicles);
       
     // Determine the range of vehicles to display on the current page
     const vehiclesPerPage = 6; // Number of vehicles to display per page
@@ -141,7 +120,7 @@ export default function Appointment({ auth }) {
                             <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg flex flex-wrap justify-between">
                                 {visibleVehicles.map((vehicle, index) => (
                                     <div key={index} className="inline-block mr-4 mb-4">                                        
-                                        <VehicleCard model={vehicle.model} driver={vehicle.driver} 
+                                        <VehicleCard id={vehicle.id} model={vehicle.model} driver={vehicle.driver} 
                                             rate={vehicle.rate} ratings={vehicle.ratings}
                                             description={vehicle.description} imgLink={vehicle.imgLink} />
                                             {/* isPreferred={vehicle.isPreferred} */}
