@@ -1,14 +1,19 @@
 import React, { useState } from 'react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { Head } from '@inertiajs/react';
+import { Head,usePage } from '@inertiajs/react';
 
 export default function Notification({ auth }) {
 
     const [notifications, setNotifications] = useState([
-       
-        // Add more notifications as needed
+        ...usePage().props.notification.map((notification, index) => ({
+            id: index + 1,
+            title: notification.title,
+            date: notification.date,
+            read: notification.read,
+        }))
     ]);
-
+    
+    
     const [filter, setFilter] = useState("all");
 
     const markAsRead = (id) => {
@@ -89,15 +94,15 @@ export default function Notification({ auth }) {
                         </div>
                         <ul>
                             {filteredNotifications.length > 0 ? (
-                                filteredNotifications.map((notification) => (
+                                filteredNotifications.map((notification,index) => (
                                     <li
-                                        key={notification.id}
+                                        key={index}
                                         className={`${
                                         notification.read ? "bg-white" : "bg-gray-100"
                                         } p-4 mb-2 rounded hover:bg-gray-200 cursor-pointer`}
                                     >
-                                        <p className="text-sm">{notification.text}</p>
-                                        <p className="text-xs text-gray-500">{notification.time}</p>
+                                        <p className="text-sm">{notification.title}</p>
+                                        <p className="text-xs text-gray-500">{notification.date}</p>
                                         {!notification.read && (
                                         <button
                                             onClick={() => markAsRead(notification.id)}

@@ -34,7 +34,7 @@ class Appointment extends Model
 
     public function vehicle()
     {
-        return $this->belongsTo(Vehicles::class);
+        return $this->belongsTo(Vehicles::class, 'vehicles_id');
     }
 
     public function userHistoryAppointments()

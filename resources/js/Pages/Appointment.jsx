@@ -45,7 +45,7 @@ export default function Appointment({ auth }) {
                                     <div key={index} className="inline-block mr-4 mb-4">
                                         <VehicleCard id={vehicle.id} model={vehicle.model} driver={vehicle.driver} 
                                             rate={vehicle.rate} ratings={vehicle.ratings}
-                                            description={vehicle.description} imgLink={vehicle.imgLink} />
+                                            description={vehicle.description} imgLink={vehicle.imgLink} occupied={vehicle.occupied}/>
                                             {/* isPreferred={vehicle.isPreferred} */}
                                     </div>
                                 ))}                               

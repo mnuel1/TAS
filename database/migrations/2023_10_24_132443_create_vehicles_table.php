@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('driver');
             $table->integer('rate');
             $table->integer('ratings');
+            $table->boolean('occupied')->default(false);
             $table->timestamps();
         });
     }

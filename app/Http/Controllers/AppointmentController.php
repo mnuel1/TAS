@@ -13,6 +13,9 @@ use Inertia\Inertia;
 use Inertia\Response;
 use App\Providers\RouteServiceProvider;
 use App\Models\UserAppointmentHistory;
+use App\Models\UserNotification;
+use App\Models\Vehicles;
+
 class AppointmentController extends Controller
 {
     /**
@@ -46,26 +49,53 @@ class AppointmentController extends Controller
     {
         // Validate and store the appointment data
         $request->validate([
-            'startDate' => 'required|date|after_or_equal:today', // Example: Ensure it's a date and not in the past
-            'endDate' => 'required|date|after:start_appointment', // Example: Ensure it's a date and after the start appointment
+            'startDate' => 'required|date|after_or_equal:today', 
+            'endDate' => 'required|date|after:start_appointment', 
             'pickup_loc' => 'required|string|max:255',
             'dropoff_loc' => 'required|string|max:255',
-            // 'number' => 'required|string|max:255',
-            
+    
         ]);
-        // dd($request->all());
+        
         $appointment = Appointment::create([
             'user_id' => auth()->user()->id,
             'vehicles_id' => $request->input('vehicle_id'),
             'start_appointment' => $request->input('startDate'),
             'end_appointment' => $request->input('endDate'),
             'pickup_loc' => $request->input('pickup_loc'),
-            'dropoff_loc' => $request->input('dropoff_loc'),
-            // 'status' => $request->input('status'),
+            'dropoff_loc' => $request->input('dropoff_loc'),            
         ]);
 
         $appointment->save();
 
+        $vehicle = Vehicles::find($request->input('vehicle_id')); // Find the vehicle by its ID
+
+        if ($vehicle) {
+            $vehicle->update(['occupied' => true]);
+            $vehicleModel = $vehicle->model;
+            // Optionally, you can add other fields you want to update in the 'vehicles' table.
+            // Example: $vehicle->update(['occupied' => true, 'another_field' => 'new_value']);
+        } else {
+            // Handle the case where the vehicle with the provided ID was not found.
+        }
+
+        $userAppointmentHistory = UserAppointmentHistory::create([
+            'appointment_id' => $appointment->id,
+            'status' => 'success',
+        ]);
+
+        $userNotification = UserNotification::create([
+            'user_id' => auth()->user()->id,
+            'title' => 'Appointment of the vehicle ' . $vehicleModel, 
+            'date' => $request->input('startDate') . ' ' . $request->input('endDate'),
+            'read' => false,
+            // Add other fields you want to save in userNotification
+        ]);
+        
+        $userNotification->save();
+        
+        
+        $userAppointmentHistory->save();
+        
         return redirect()->intended(RouteServiceProvider::HOME);
     }
 
@@ -95,8 +125,8 @@ class AppointmentController extends Controller
     public function history(Request $request): Response
     {  
         // Retrieve all vehicles from the 'vehicle' table
-        $userAppointmentHistory = UserAppointmentHistory::all();
-
+        $userAppointmentHistory = UserAppointmentHistory::with('appointment.vehicle')->get();
+        
         return Inertia::render('Appoint/history/ShowAppointmentHistory', [
             'userAppointmentHistory' => $userAppointmentHistory,
         ]);

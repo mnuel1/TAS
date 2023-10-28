@@ -15,9 +15,11 @@ const TABLE_ROWS = [
     // },
     
   ];
+
+  
  
-export function HistoryTable() {
-    
+export function HistoryTable({ userAppointmentHistory }) {
+
     return (
         <Card className="h-full w-full shadow-none">
             <CardHeader floated={false} shadow={false} className="rounded-none">
@@ -43,7 +45,7 @@ export function HistoryTable() {
 
             <CardBody className="overflow-scroll px-0">
                 
-                {TABLE_ROWS.length > 0 ? (
+                {userAppointmentHistory.length > 0 ? (
                     <table className="w-full min-w-max table-auto text-left">
                         <thead>
                             <tr>
@@ -64,62 +66,70 @@ export function HistoryTable() {
                             </tr>
                         </thead>
                         <tbody>
-                            {TABLE_ROWS.map(({ modelDriver, amount, date, status }, index) => {
-                            const isLast = index === TABLE_ROWS.length - 1;
-                            const classes = isLast
-                                ? "p-4"
-                                : "p-4 border-b border-blue-gray-50";
-
-                            return (
-                                <tr key={modelDriver}>
-                                    <td className={classes}>
-                                        <div className="flex items-center gap-3">
-                                        <Typography
+                            {userAppointmentHistory.map((history, index) => {
+                                const isLast = index === TABLE_ROWS.length - 1;
+                                const classes = isLast
+                                    ? "p-4"
+                                    : "p-4 border-b border-blue-gray-50";
+                                const formatDate = (dateStr) => {
+                                    const options = { year: 'numeric', month: 'short', day: '2-digit' };
+                                    return new Date(dateStr).toLocaleDateString(undefined, options);
+                                };
+                        
+                                const startDate = formatDate(history.appointment.start_appointment);
+                                const endDate = formatDate(history.appointment.end_appointment);
+                                const formattedDate = `${startDate} - ${endDate}`;
+                                return (
+                                    <tr key={history.appointment.vehicle.model}>
+                                        <td className={classes}>
+                                            <div className="flex items-center gap-3">
+                                            <Typography
+                                                variant="small"
+                                                color="blue-gray"
+                                                className="font-bold"
+                                            >
+                                                {history.appointment.vehicle.driver} - {history.appointment.vehicle.model}
+                                            </Typography>
+                                            </div>
+                                        </td>
+                                        <td className={classes}>
+                                            <Typography
                                             variant="small"
                                             color="blue-gray"
-                                            className="font-bold"
-                                        >
-                                            {modelDriver}
-                                        </Typography>
-                                        </div>
-                                    </td>
-                                    <td className={classes}>
-                                        <Typography
-                                        variant="small"
-                                        color="blue-gray"
-                                        className="font-normal"
-                                        >
-                                        {amount}
-                                        </Typography>
-                                    </td>
-                                    <td className={classes}>
-                                        <Typography
-                                        variant="small"
-                                        color="blue-gray"
-                                        className="font-normal"
-                                        >
-                                        {date}
-                                        </Typography>
-                                    </td>
+                                            className="font-normal"
+                                            >
+                                             ₱ {history.appointment.vehicle.rate}
+                                            </Typography>
+                                        </td>
+                                        
+                                        <td className={classes}>
+                                            <Typography
+                                            variant="small"
+                                            color="blue-gray"
+                                            className="font-normal"
+                                            >
+                                            {formattedDate} 
+                                            </Typography>
+                                        </td>
 
-                                    <td className={classes}>
-                                        <div className="w-max">
-                                        <Chip
-                                            size="sm"
-                                            variant="ghost"
-                                            value={status}
-                                            color={
-                                            status === "success"
-                                                ? "green"
-                                                : status === "cancelled"
-                                                ? "amber"
-                                                : "red"
-                                            }
-                                        />
-                                        </div>
-                                    </td>
-                                </tr>
-                            );
+                                        <td className={classes}>
+                                            <div className="w-max">
+                                            <Chip
+                                                size="sm"
+                                                variant="ghost"
+                                                value={history.status}
+                                                color={
+                                                    history.status === "success"
+                                                    ? "green"
+                                                    : history.status === "cancelled"
+                                                    ? "amber"
+                                                    : "red"
+                                                }
+                                            />
+                                            </div>
+                                        </td>
+                                    </tr>
+                                );
                             })}
                         </tbody>
                     </table>

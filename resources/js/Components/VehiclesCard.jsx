@@ -4,18 +4,18 @@ import { Link } from "@inertiajs/react";
 
 
 
-export function VehicleCard({ id, model, driver, rate, ratings, img, description}) {
+export function VehicleCard({ id, model, driver, rate, ratings, img, description, occupied}) {
     
     const vehicleData = {id:id, model : model, driver: driver, rate: rate, ratings: ratings, img: img, description:description }
     const vehicleDataJSON = JSON.stringify(vehicleData);
     
     
     return (
-        <Card className="w-full max-w-[26rem] shadow-lg">
+        <Card className={`${occupied ? 'bg-red-200' : ''} w-full max-w-[26rem] shadow-lg`}>
             <CardHeader floated={false} color="blue-gray">
                 <img
-                src="https://images.unsplash.com/photo-1499696010180-025ef6e1a8f9?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80"
-                alt="vehicle"
+                    src="https://images.unsplash.com/photo-1499696010180-025ef6e1a8f9?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80"
+                    alt="vehicle"
                 />
                 <div className="to-bg-black-10 absolute inset-0 h-full w-full bg-gradient-to-tr from-transparent via-transparent to-black/60 " />                
             </CardHeader>
@@ -46,23 +46,27 @@ export function VehicleCard({ id, model, driver, rate, ratings, img, description
                 </div>
                 <div className="flex justify-between items-center w-full"> 
                     <div>{driver}</div> 
-                    {rate}    
+                    ₱ {rate} per hour   
                 </div>
                 <Typography color="gray"> {description} </Typography>
 
-                {/* cards */}
-                <div className="group mt-8 inline-flex flex-wrap items-center gap-3">                   
-                {/* <Tooltip content="And +20 more">
-                    <span className="cursor-pointer rounded-full border border-gray-900/5 bg-gray-900/5 p-3 text-gray-900 transition-colors hover:border-gray-900/10 hover:bg-gray-900/10 hover:!opacity-100 group-hover:opacity-70">
-                    +20
-                    </span>
-                </Tooltip> */}
-                </div>
+                
             </CardBody>
             <CardFooter className="pt-3">
-                <Link href={route('appoint.show')} data={{vehicles:vehicleDataJSON}}>
-                    <Button size="lg" fullWidth={true}> Make an Appointment </Button>
-                </Link>
+                {!occupied ? (
+                    <Link  href={route('appoint.show')} data={{ vehicles: vehicleDataJSON }} >
+                        <Button size="lg" fullWidth={true}>
+                            Make an Appointment
+                        </Button>
+                    </Link>
+                ) : (
+                    <Button size="lg" fullWidth={true} disabled={occupied}>
+                        Currently booked
+                    </Button>
+                )}
+                
+                   
+                
             </CardFooter>            
         </Card>
     );

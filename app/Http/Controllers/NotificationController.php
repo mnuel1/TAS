@@ -11,23 +11,23 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 use Inertia\Response;
-use App\Models\Vehicles;
+use App\Models\UserNotification;
 
-class VehiclesListController extends Controller
+class NotificationController extends Controller
 {
     /**
-     * Display the vehicles.
+     * Display the notification.
      *
      * @param  \App\Models\Appointment  $appointment
      * @return \Illuminate\Http\Response
      */
     public function show(Request $request): Response
     {  
-        // Retrieve all vehicles from the 'vehicle' table
-        $vehicles = Vehicles::all();
+        // Retrieve all notification from the 'vehicle' table
+        $notification = UserNotification::all();
         
-        return Inertia::render('Appointment', [
-            'vehicles' => $vehicles,
+        return Inertia::render('Notification', [
+            'notification' => $notification,
         ]);
     }
 }

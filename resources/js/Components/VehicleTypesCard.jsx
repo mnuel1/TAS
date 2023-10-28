@@ -27,7 +27,7 @@ export function VehicleTypesCard({ title, rate, description, isPreferred, imgLin
                         {title}
                     </Typography>
                     <Typography color="blue-gray" className="font-medium">
-                        {rate}
+                        {/* {rate} */}
                     </Typography>
                 </div>
                 <Typography

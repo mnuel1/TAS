@@ -9,10 +9,12 @@ import InputError from '@/Components/InputError';
 import { HistoryTable } from '@/Components/Table';
 // import { BreadcrumbsLinks } from '@/Components/Breadcrumbs';
 
-const HistoryAppointment = (props, auth) => {
+const HistoryAppointment = (props, auth ) => {
     
-    const { history } = usePage().props;
-    console.log(history);
+    const  userAppointmentHistory = usePage().props.userAppointmentHistory;
+    const firstRecord = userAppointmentHistory[0];
+    const vehicleModel = firstRecord.appointment.vehicle.model;
+    console.log(vehicleModel);
     return (
         <AuthenticatedLayout
             user={auth.user}
@@ -26,7 +28,7 @@ const HistoryAppointment = (props, auth) => {
                             Back 
                         </Link>
                         <div className="p-12">                               
-                            <HistoryTable/>                            
+                            <HistoryTable userAppointmentHistory={userAppointmentHistory}/>                            
                         </div>
                     </div>
                 </div>

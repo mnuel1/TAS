@@ -22,6 +22,7 @@ class Vehicles extends Model
         'ratings',
         'img',
         'description',
+        'occupied'
         
     ];
 
