@@ -9,6 +9,7 @@ class Appointment extends Model
 {
     use HasFactory;
     protected $table = 'appointment';
+    
     /**
      * The attributes that are mass assignable.
      *
@@ -16,7 +17,7 @@ class Appointment extends Model
      */
     protected $fillable = [
         'user_id',
-        'vehicle_id',
+        'vehicles_id',
         'start_appointment',
         'end_appointment',
         'pickup_loc',
@@ -33,6 +34,11 @@ class Appointment extends Model
 
     public function vehicle()
     {
-        return $this->belongsTo(Vehicle::class);
+        return $this->belongsTo(Vehicles::class);
+    }
+
+    public function userHistoryAppointments()
+    {
+        return $this->hasMany(UserAppointmentHistory::class);
     }
 }

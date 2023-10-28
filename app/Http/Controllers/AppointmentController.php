@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 use Inertia\Response;
 use App\Providers\RouteServiceProvider;
-
+use App\Models\UserAppointmentHistory;
 class AppointmentController extends Controller
 {
     /**
@@ -53,12 +53,12 @@ class AppointmentController extends Controller
             // 'number' => 'required|string|max:255',
             
         ]);
-        
+        // dd($request->all());
         $appointment = Appointment::create([
             'user_id' => auth()->user()->id,
             'vehicles_id' => $request->input('vehicle_id'),
-            'start_appointment' => $request->input('start_date'),
-            'end_appointment' => $request->input('end_date'),
+            'start_appointment' => $request->input('startDate'),
+            'end_appointment' => $request->input('endDate'),
             'pickup_loc' => $request->input('pickup_loc'),
             'dropoff_loc' => $request->input('dropoff_loc'),
             // 'status' => $request->input('status'),
@@ -83,6 +83,22 @@ class AppointmentController extends Controller
             'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,
             'status' => session('status'),
             'vehicles' => $vehicles,
+        ]);
+    }
+
+    /**
+     * Display the history of appointment.
+     *
+     * @param  \App\Models\UserAppointmentHistory  $appointment
+     * @return \Illuminate\Http\Response
+     */
+    public function history(Request $request): Response
+    {  
+        // Retrieve all vehicles from the 'vehicle' table
+        $userAppointmentHistory = UserAppointmentHistory::all();
+
+        return Inertia::render('Appoint/history/ShowAppointmentHistory', [
+            'userAppointmentHistory' => $userAppointmentHistory,
         ]);
     }
 

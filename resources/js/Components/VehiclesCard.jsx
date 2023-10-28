@@ -60,7 +60,7 @@ export function VehicleCard({ id, model, driver, rate, ratings, img, description
                 </div>
             </CardBody>
             <CardFooter className="pt-3">
-                <Link href={route('appoint.edit')} data={{vehicles:vehicleDataJSON}}>
+                <Link href={route('appoint.show')} data={{vehicles:vehicleDataJSON}}>
                     <Button size="lg" fullWidth={true}> Make an Appointment </Button>
                 </Link>
             </CardFooter>            

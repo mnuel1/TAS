@@ -135,11 +135,10 @@ export default function Authenticated({ user, header, children }) {
     const handleOpen = (value) => {
         setOpen(open === value ? 0 : value);
     };
-
     
     return (
         <div className="min-w-screen bg-gray-100 flex">
-            <Card className="min-h-screen w-full max-w-[20rem] p-4 shadow-xl shadow-blue-gray-900/5">
+            <Card className="hidden md:block min-h-screen max-w-[20rem] p-4 shadow-xl shadow-blue-gray-900/5">
                 <div className="mb-2 flex items-center gap-4 p-4">
                     <Link href="/">
                         <ApplicationLogo className="block h-9 w-auto fill-current text-gray-800" />
@@ -149,17 +148,7 @@ export default function Authenticated({ user, header, children }) {
 
                 <hr className="my-6 border-blue-gray-50" />
 
-                <List>
-                    {/* <NavLink href={route('dashboard')} active={route().current('dashboard')}>
-                        <ListItem>
-                            <ListItemPrefix>
-                                <PresentationChartBarIcon className="h-5 w-5" />
-                            </ListItemPrefix>                            
-                                Dashboard
-                        </ListItem>
-                    </NavLink> */}
-                                        
-                   
+                <List>                                       
                     <NavLink href={route('appointment')} active={route().current('appointment')}>
                         <ListItem>
                             <ListItemPrefix>
@@ -209,13 +198,17 @@ export default function Authenticated({ user, header, children }) {
                 </List>
             
             </Card>
-            <div className="flex flex-col w-full mt-5">
+            <div className="flex flex-col w-full mt-5">                
                 {header && ( 
+                    
                     <div className="flex items-center justify-between mx-5">
-                        <div className="max-w-7xl py-6 px-4 sm:px-6 lg:px-8 ">{header}</div>
-                        <div className="mx-[10%]">     
-                        <NotificationBell/>                                           
-                        </div>                                                                   
+                        <div className="flex items-center gap-2 mx-6">
+                            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAN0lEQVR4nO3XwQkAMAwCQPffzZ06RCkJ9A78+xMTgOe6PFlfEADuTE9ZbTEAn+vyZLpA/WIgcw7iMMAxg+GZ7gAAAABJRU5ErkJggg==" 
+                            className="block md:hidden hover:cursor-pointer"/>
+                            <div className="max-w-7xl py-6 px-4 sm:px-6 lg:px-8 ">{header}</div>
+                        </div>
+                        <div className="mx-0 md:mx-[10%]"> <NotificationBell/> </div>                  
+
                     </div>
                 )}
                 

@@ -3,6 +3,7 @@
 use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\VehiclesListController;
+use App\Models\UserAppointmentHistory;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -48,9 +49,10 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::middleware('auth')->group(function () {
-    Route::get('/appoint', [AppointmentController::class, 'show'])->name('appoint.edit');
+    Route::get('/appoint', [AppointmentController::class, 'show'])->name('appoint.show');
     Route::post('/appoint', [AppointmentController::class, 'store'])->name('appoint.store');
-    Route::delete('/appoint', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::get('/appoint/history', [AppointmentController::class, 'history'])->name('appoint.history');
 });
+
 
 require __DIR__.'/auth.php';

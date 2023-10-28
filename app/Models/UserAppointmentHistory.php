@@ -8,25 +8,22 @@ use Illuminate\Database\Eloquent\Model;
 class UserAppointmentHistory extends Model
 {
     use HasFactory;
-
+    protected $table = 'user_appointment_history';
     /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
      */
     protected $fillable = [
-        'user_id',
-        'vehicle_id',
-        'start_appointment',
-        'end_appointment',
+        'appointment_id',        
         'status',
     ];
 
 
 
-    public function user()
+    public function appointment()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Appointment::class);
     }
 
 }
