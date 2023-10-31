@@ -63,11 +63,9 @@ export function VehicleCard({ id, model, driver, rate, ratings, img, description
                     <Button size="lg" fullWidth={true} disabled={occupied}>
                         Currently booked
                     </Button>
-                )}
-                
-                   
-                
+                )}                                                   
             </CardFooter>            
+           
         </Card>
     );
 }

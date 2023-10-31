@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Feedback extends Model
 {
     use HasFactory;
-    
+    protected $table = 'user_feedback';
 
     /**
      * The attributes that are mass assignable.
@@ -17,7 +17,7 @@ class Feedback extends Model
      */
     protected $fillable = [
         'user_id',
-        'vehicle_id',
+        'vehicles_id',
         'rating',
         'comment',
         
@@ -27,7 +27,7 @@ class Feedback extends Model
 
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     // UserFeedback.php

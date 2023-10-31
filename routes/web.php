@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AppointmentController;
+use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\VehiclesListController;
@@ -39,9 +40,8 @@ Route::get('/notification', [NotificationController::class, 'show'])
     ->middleware(['auth', 'verified'])
     ->name('notification');
 
-// Route::get('/notification', function () {
-//     return Inertia::render('Notification');
-// })->middleware(['auth', 'verified'])->name('notification');
+
+
 
 Route::get('/settings', function () {
     return Inertia::render('Settings');
@@ -57,6 +57,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/appoint', [AppointmentController::class, 'show'])->name('appoint.show');
     Route::post('/appoint', [AppointmentController::class, 'store'])->name('appoint.store');
     Route::get('/appoint/history', [AppointmentController::class, 'history'])->name('appoint.history');
+    
 });
 
 

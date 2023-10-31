@@ -14,7 +14,6 @@ export default function Settings({ auth }) {
     const { data, setData, patch, errors, processing, recentlySuccessful } = useForm({
         dropoff_loc: user.dropoff_loc,
         pickup_loc: user.pickup_loc,
-        // number: user.number, preffered vehicle types
         email_notif: user.email_notif,
         sms_notif: user.sms_notif,
 
@@ -28,8 +27,6 @@ export default function Settings({ auth }) {
     });
 
     
-    // Add more states for other preferences as needed
-
     // Function to handle form submissions
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -47,66 +44,59 @@ export default function Settings({ auth }) {
         {
             value: 'l300',
             title: 'L300',
-            rate: '₱100',
+            
             description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ',
             isPreferred: false,
-            imgLink: "https://imgcdnblog.carbay.com/wp-content/uploads/2019/05/20180219/Untitled-1-3-650x420.jpg",
+            imgLink: "C:/Users/Manuel Marin/Desktop/Transport Appointment System/resources/img/l300.jpg",
         },
         {
             value: 'van',
             title: 'Van',
-            rate: '₱150',
             description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ',
             isPreferred: false,
-            imgLink: "https://www.hireexpress.com.au/product_pic/pictures/530045.jpg",
+            imgLink: "resources/img/van.jpg",
         },
         {
             value: 'car',
             title: 'Car',
-            rate: '₱100',
             description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ',
             isPreferred: false,
-            imgLink: "https://www.wallpaperup.com/uploads/wallpapers/2014/02/21/264234/8adc4288e526edf66155921a442dbcb8.jpg",
+            imgLink: "resources/img/car.jpg",
         },
         {
             value: 'bike',
             title: 'Bike',
-            rate: '₱20',
             description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ',
             isPreferred: false,
-            imgLink: "https://pngimg.com/uploads/bicycle/bicycle_PNG5354.png",
+            imgLink: "resources/img/bike.jpg",
         },
         {
             value: 'ebike',
             title: 'E-Bike',
-            rate: '₱50',
             description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ',
             isPreferred: false,
-            imgLink: "https://images.flexshopper.xyz/385x385/product-beta-images/b73ad71f-0d16-4f24-bcd5-d1e1a2d28736.jpeg",
+            imgLink: "resources/img/ebike.jpg",
         },
         {
             value: 'tricycle',
             title: 'Tricycle',
-            rate: '₱70',
             description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ',
             isPreferred: false,
-            imgLink: "https://www.seekpng.com/png/detail/89-890671_tricycle-transparent-background-png-tricycle-png.png",
+            imgLink: "resources/img/tric.jpg",
         },
         {
             value: 'multicab',
             title: 'Multicab',
-            rate: '₱150',
             description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ',
             isPreferred: false,
-            imgLink: "https://www.dealerlogin.co/dealer-site-source/image_preview.php?filename=/domains/philmotors.com/html/upload/607/5057504_1.jpg&width=634",
+            imgLink: "resources/img/multicab.jpg",
         },
         {
             value: 'motorcycle',
             title: 'Motorcycle',
-            rate: '₱90',
             description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ',
             isPreferred: false,
-            imgLink: "https://bikes.bestcarmagz.net/sites/default/files/ajs/dd50e-2/2011/2011-ajs-dd50e-2-83309-309.jpg",
+            imgLink: "resources/img/motor.jpg",
         },
     ];
       
@@ -136,10 +126,11 @@ export default function Settings({ auth }) {
                             {/* Vehicle Types */}
                             <label className="block text-sm font-medium text-gray-700">Vehicle Types</label>
 
-                            <div className="mb-4 flex justify-between items-center w-full space-x-4 ">
-                                {/* First Row */}
+                            <div className="mb-4 flex justify-between items-center w-full gap-2 flex-col lg:flex-row ">
+                                
                                 {vehicleTypes.slice(0, 4).map((vehicle, index) => (
                                     <VehicleTypesCard
+                                    key={index}
                                     title={vehicle.title}
                                     rate={vehicle.rate}
                                     description={vehicle.description}
@@ -149,10 +140,11 @@ export default function Settings({ auth }) {
                                     />
                                 ))}
                                 </div>
-                            <div className="mb-4 flex justify-between items-center w-full space-x-4">
-                                {/* Second Row */}
+                            <div className="mb-4 flex justify-between items-center w-full flex-col lg:flex-row">
+                                
                                 {vehicleTypes.slice(4, 8).map((vehicle, index) => (
                                     <VehicleTypesCard
+                                    key={index}
                                     title={vehicle.title}
                                     rate={vehicle.rate}
                                     description={vehicle.description}

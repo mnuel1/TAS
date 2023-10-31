@@ -12,7 +12,7 @@ export function CheckboxCustomStyles({isPreferred}) {
 }
 export function VehicleTypesCard({ title, rate, description, isPreferred, imgLink}) {
     return (
-        <Card className="w-80 ">
+        <Card className="w-auto md:w-80 ">
             <CardHeader shadow={false} floated={false} className="h-96">
                 <img
                     src={imgLink}
@@ -25,10 +25,7 @@ export function VehicleTypesCard({ title, rate, description, isPreferred, imgLin
                 <div className="mb-2 flex items-center justify-between">
                     <Typography color="blue-gray" className="font-medium">
                         {title}
-                    </Typography>
-                    <Typography color="blue-gray" className="font-medium">
-                        {/* {rate} */}
-                    </Typography>
+                    </Typography>                    
                 </div>
                 <Typography
                     variant="small"

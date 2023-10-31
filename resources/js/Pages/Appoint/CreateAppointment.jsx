@@ -7,11 +7,12 @@ import TextInput from '@/Components/TextInput';
 import InputLabel from '@/Components/InputLabel';
 import InputError from '@/Components/InputError';
 // import { BreadcrumbsLinks } from '@/Components/Breadcrumbs';
+import { Chatbox } from '@/Pages/Chatbox';
 
-const AppointmentForm = (props, auth) => {
+const AppointmentForm = (props) => {
 
     const user = usePage().props.auth.preference;
-    
+    const { auth } = props
     const { data, setData, post, errors, processing, recentlySuccessful } = useForm({
         vehicle_id: props.vehicles.id,
         startDate: '',
@@ -32,9 +33,9 @@ const AppointmentForm = (props, auth) => {
     };
 
     const handlePickupCheckbox = () => {
-        console.log('yo');
+        
         setCheckPickup(!checkPickup);
-        setData('pickup_loc', checkPickup ? user.pickup_loc : ''); // Clear the pickup_loc if using different
+        setData('pickup_loc', checkPickup ? user.pickup_loc : ''); 
     };
 
     const handleDropoffCheckbox = () => {
@@ -51,10 +52,10 @@ const AppointmentForm = (props, auth) => {
             <div className="py-12">
                 <div className="w-full mx-auto sm:px-6 lg:px-8">                
                     <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                    <Link href={route('appointment')}
-                        className='mt-6 ml-8 flex items-center justify-center w-32 h-8 rounded-xl bg-blue-gray-900/10 text-blue-gray-900 shadow-none hover:scale-105 hover:shadow-none focus:scale-105 focus:shadow-none active:scale-100'> 
-                        Back 
-                    </Link>
+                        <Link href={route('appointment')}
+                            className='mt-6 ml-8 flex items-center justify-center w-32 h-8 rounded-xl bg-blue-gray-900/10 text-blue-gray-900 shadow-none hover:scale-105 hover:shadow-none focus:scale-105 focus:shadow-none active:scale-100'> 
+                            Back 
+                        </Link>
                         <div className="p-12 grid grid-cols-2 gap-4">                            
                             <div className='flex w-full h-auto'>
                                 <ImgCard id={props.vehicles.id} model={props.vehicles.model} driver={props.vehicles.driver} rate={props.vehicles.rate} 
@@ -65,7 +66,7 @@ const AppointmentForm = (props, auth) => {
                                 <form onSubmit={handleSubmit}>                                        
                                     <div className='flex w-full gap-2'>
                                         <div className="mb-4 w-full ">
-                                            <InputLabel htmlFor="startDate" value="Pick up Location" className='text-black'/>
+                                            <InputLabel htmlFor="startDate" value="Start Date" className='text-black'/>
                                             <TextInput
                                                 id="startDate"
                                                 type="date"
@@ -79,7 +80,7 @@ const AppointmentForm = (props, auth) => {
                                             <InputError message={errors.startDate} className="mt-2" />
                                         </div>
                                         <div className="mb-4 w-full ">
-                                            <InputLabel htmlFor="endDate" value="Pick up Location" className='text-black'/>
+                                            <InputLabel htmlFor="endDate" value="End Date" className='text-black'/>
                                             <TextInput
                                                 id="endDate"
                                                 type="date"
@@ -128,29 +129,26 @@ const AppointmentForm = (props, auth) => {
                                         />
                                         <InputError message={errors.dropoff_loc} className="mt-2" />
 
-                                        <div className='flex items-center text-gray-600 text-xs hover:cursor-pointer' onClick={handlePickupCheckbox}>
+                                        <div className='flex items-center text-gray-600 text-xs hover:cursor-pointer' onClick={handleDropoffCheckbox}>
                                             <Checkbox checked={checkDropoff} className='h-4 w-4 rounded-full border-gray-900/20 bg-gray-900/10 transition-all hover:scale-105 hover:before:opacity-0'/>
                                             Use different Drop off Location
                                         </div>
                                     </div>
-
-                                
-
-                                <div className="mt-6">
-                                    <button
-                                        type="submit"
-                                        className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-700"
-                                    >
-                                        Create Appointment
-                                    </button>
-                                </div>
-                            </form>
-                            </div>
                             
-                            
-            
+                                    <div className="mt-6">
+                                        <button
+                                            type="submit"
+                                            className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-700"
+                                        >
+                                            Create Appointment
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>                                            
                         </div>
+                        <Chatbox user={auth.user.id}vehiclesId={props.vehicles.id}/>
                     </div>
+                    
                 </div>
             </div>
             

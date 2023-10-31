@@ -128,20 +128,21 @@ import { NotificationBell } from "@/Components/NotificationBell";
 import { Link } from '@inertiajs/react';
  
 export default function Authenticated({ user, header, children }) {
-    const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);
-    const [open, setOpen] = React.useState(0);
-    const [openAlert, setOpenAlert] = React.useState(true);
     
-    const handleOpen = (value) => {
-        setOpen(open === value ? 0 : value);
+    const [open, setOpen] = React.useState(false);
+    
+    
+    const handleOpen = () => {        
+        setOpen(open === false ? true : false);
+        
     };
     
     return (
         <div className="min-w-screen bg-gray-100 flex">
-            <Card className="hidden md:block min-h-screen max-w-[20rem] p-4 shadow-xl shadow-blue-gray-900/5">
-                <div className="mb-2 flex items-center gap-4 p-4">
+            <Card className={`absolute md:relative z-10 md:block min-h-screen max-w-[20rem] p-4 shadow-xl shadow-blue-gray-900/5 ${open ? '' : 'hidden'}`}>
+                <div className="mb-2 items-center gap-4 p-4 mt-[5rem] md:mt-0">
                     <Link href="/">
-                        <ApplicationLogo className="block h-9 w-auto fill-current text-gray-800" />
+                        <ApplicationLogo className="block h-9 w-auto fill-current text-gray-800 " />
                     </Link>
                     {/* <Typography variant="small" className="font-bold" color="blue-gray"> TRANSPORT APPOINTMENT SYSTEM @ BARANGAY NORTH DAANGHARI TAGUIG CITY </Typography> */}
                 </div>
@@ -166,9 +167,9 @@ export default function Authenticated({ user, header, children }) {
                                 <InboxIcon className="h-5 w-5" />
                             </ListItemPrefix>                            
                             Notification                        
-                            <ListItemSuffix>
-                                <Chip value="14" size="sm" variant="ghost" color="blue-gray" className="rounded-full" />
-                            </ListItemSuffix>
+                            {/* <ListItemSuffix> */}
+                                {/* <Chip value="14" size="sm" variant="ghost" color="blue-gray" className="rounded-full" /> */}
+                            {/* </ListItemSuffix> */}
                         </ListItem>
                     </NavLink>
                     <NavLink href={route('profile.edit')} active={route().current('profile.edit')}>
@@ -203,11 +204,14 @@ export default function Authenticated({ user, header, children }) {
                     
                     <div className="flex items-center justify-between mx-5">
                         <div className="flex items-center gap-2 mx-6">
-                            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAN0lEQVR4nO3XwQkAMAwCQPffzZ06RCkJ9A78+xMTgOe6PFlfEADuTE9ZbTEAn+vyZLpA/WIgcw7iMMAxg+GZ7gAAAABJRU5ErkJggg==" 
-                            className="block md:hidden hover:cursor-pointer"/>
+                            <img 
+                                src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAN0lEQVR4nO3XwQkAMAwCQPffzZ06RCkJ9A78+xMTgOe6PFlfEADuTE9ZbTEAn+vyZLpA/WIgcw7iMMAxg+GZ7gAAAABJRU5ErkJggg==" 
+                                className="block md:hidden hover:cursor-pointer z-10"
+                                onClick={handleOpen}
+                            />
                             <div className="max-w-7xl py-6 px-4 sm:px-6 lg:px-8 ">{header}</div>
                         </div>
-                        <div className="mx-0 md:mx-[10%]"> <NotificationBell/> </div>                  
+                        {/* <div className="mx-0 md:mx-[10%]"> <NotificationBell/> </div>                   */}
 
                     </div>
                 )}

@@ -16,7 +16,7 @@ export default function Appointment({ auth }) {
     const endIndex = Math.min(startIndex + vehiclesPerPage, vehicles.length); // Ensure endIndex doesn't exceed the number of vehicles
     
     const visibleVehicles = vehicles.slice(startIndex, endIndex);
-
+    console.log(auth.user);
     return (
         <AuthenticatedLayout
             user={auth.user}
