@@ -18,27 +18,8 @@ use App\Models\Vehicles;
 
 class AppointmentController extends Controller
 {
-    /**
-     * Display a listing of the vehicle appointments.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        $appointments = Appointment::all();
-        return view('vehicle-appointments.index', compact('appointments'));
-    }
-
-    /**
-     * Show the form for creating a new vehicle appointment.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        return view('vehicle-appointments.create');
-    }
-
+  
+    
     /**
      * Store a newly created vehicle appointment in storage.
      *
@@ -92,10 +73,21 @@ class AppointmentController extends Controller
         ]);
         
         $userNotification->save();
-        
-        
+                
         $userAppointmentHistory->save();
+
+        // Find all vehicles with associated appointments
+        $vehiclesWithAppointments = Vehicles::has('appointments')->get();
+
+        // Update the 'occupied' column to true for vehicles with appointments
+        $vehiclesWithAppointments->each(function ($vehicle) {
+            $vehicle->update(['occupied' => true]);
+        });
         
+        // Update the 'occupied' column to false for vehicles without appointments
+        Vehicles::whereNotIn('id', $vehiclesWithAppointments->pluck('id')->toArray())
+            ->update(['occupied' => false]);
+
         return redirect()->intended(RouteServiceProvider::HOME);
     }
 
@@ -132,16 +124,7 @@ class AppointmentController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for editing the vehicle appointment.
-     *
-     * @param  \App\Models\Appointment  $appointment
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Appointment $appointment)
-    {
-        return view('vehicle-appointments.edit', compact('appointment'));
-    }
+
 
     /**
      * Update the specified vehicle appointment in storage.
@@ -161,6 +144,18 @@ class AppointmentController extends Controller
             'status' => $request->input('status'),
         ]);
 
+        // Find all vehicles with associated appointments
+        $vehiclesWithAppointments = Vehicles::has('appointments')->get();
+
+        // Update the 'occupied' column to true for vehicles with appointments
+        $vehiclesWithAppointments->each(function ($vehicle) {
+            $vehicle->update(['occupied' => true]);
+        });
+
+        // Update the 'occupied' column to false for vehicles without appointments
+        Vehicles::whereNotIn('id', $vehiclesWithAppointments->pluck('id')->toArray())
+            ->update(['occupied' => false]);
+
         return redirect()->route('vehicle-appointments.index');
     }
 
@@ -170,9 +165,9 @@ class AppointmentController extends Controller
      * @param  \App\Models\Appointment  $appointment
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Appointment $appointment)
-    {
-        $appointment->delete();
-        return redirect()->route('vehicle-appointments.index');
-    }
+    // public function destroy(Appointment $appointment)
+    // {
+    //     $appointment->delete();
+    //     return redirect()->route('vehicle-appointments.index');
+    // }
 }

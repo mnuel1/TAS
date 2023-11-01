@@ -2,8 +2,16 @@ import PrimaryButton from '@/Components/PrimaryButton';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { VehicleTypesCard } from '@/Components/VehicleTypesCard';
 import { Head } from '@inertiajs/react';
-import { useState } from 'react'; 
+import { useState,useEffect } from 'react'; 
 import { useForm, usePage } from '@inertiajs/react';
+import  bike  from '../../img/bike.jpg'
+import  car  from '../../img/car.jpg'
+import  ebike  from '../../img/ebike.jpg'
+import  l300  from '../../img/l300.jpg'
+import  motor  from '../../img/motor.jpg'
+import  multicab  from '../../img/multicab.jpg'
+import  tric  from '../../img/tric.jpg'
+import  van  from '../../img/van.jpg'
 
 
 
@@ -12,6 +20,7 @@ export default function Settings({ auth }) {
     const user = usePage().props.auth.preference;
     
     const { data, setData, patch, errors, processing, recentlySuccessful } = useForm({
+        user_preferred_vehicles_id: user.user_preferred_vehicles_id,
         dropoff_loc: user.dropoff_loc,
         pickup_loc: user.pickup_loc,
         email_notif: user.email_notif,
@@ -26,80 +35,102 @@ export default function Settings({ auth }) {
         sms: false,
     });
 
+    const vehicleTypes = [
+        {
+            value: 1,
+            title: 'L300',            
+            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ',
+            isPreferred: false,
+            imgLink: l300,
+        },
+        {
+            value: 2,
+            title: 'Van',
+            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ',
+            isPreferred: false,
+            imgLink: van,
+        },
+        {
+            value: 4,
+            title: 'Car',
+            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ',
+            isPreferred: false,
+            imgLink: car,
+        },
+        {
+            value: 8,
+            title: 'Bike',
+            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ',
+            isPreferred: false,
+            imgLink: bike,
+        },
+        {
+            value: 16,
+            title: 'E-Bike',
+            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ',
+            isPreferred: false,
+            imgLink: ebike,
+        },
+        {
+            value: 32,
+            title: 'Tricycle',
+            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ',
+            isPreferred: false,
+            imgLink: tric,
+        },
+        {
+            value: 64,
+            title: 'Multicab',
+            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ',
+            isPreferred: false,
+            imgLink: multicab,
+        },
+        {
+            value: 128,
+            title: 'Motorcycle',
+            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ',
+            isPreferred: false,
+            imgLink: motor,
+        },
+    ];
+    
+    const [selectedVehicles, setSelectedVehicles] = useState([]);
+    useEffect(() => {
+    
+        console.log(selectedVehicles);
+    }, [selectedVehicles]);
+
     
     // Function to handle form submissions
     const handleSubmit = (e) => {
         e.preventDefault();
-        
-        // You can save user preferences to a backend or handle them as needed here
-        console.log('User preferences submitted:', {
-            vehicleTypes,
-            pickupLocation,
-            dropoffLocation,
-            notificationPreferences,
-        });
+
+        // Calculate the sum of the values of selected vehicles
+        const vehiclePreference = selectedVehicles.reduce((acc, title) => {
+            const vehicle = vehicleTypes.find((v) => v.title === title);
+            if (vehicle) {
+                return acc + vehicle.value;
+            }
+
+            return acc;
+        }, 0);
+
+
+        // Gather the user's updated preferences
+        const updatedPreferences = {
+            vehiclePreference: vehiclePreference,
+            pickupLocation: pickupLocation,
+            dropoffLocation: dropoffLocation,
+            notificationPreferences: notificationPreferences,
+        };
+        patch(route('settings.update'))
     };
 
-    const vehicleTypes = [
-        {
-            value: 'l300',
-            title: 'L300',
-            
-            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ',
-            isPreferred: false,
-            imgLink: "C:/Users/Manuel Marin/Desktop/Transport Appointment System/resources/img/l300.jpg",
-        },
-        {
-            value: 'van',
-            title: 'Van',
-            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ',
-            isPreferred: false,
-            imgLink: "resources/img/van.jpg",
-        },
-        {
-            value: 'car',
-            title: 'Car',
-            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ',
-            isPreferred: false,
-            imgLink: "resources/img/car.jpg",
-        },
-        {
-            value: 'bike',
-            title: 'Bike',
-            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ',
-            isPreferred: false,
-            imgLink: "resources/img/bike.jpg",
-        },
-        {
-            value: 'ebike',
-            title: 'E-Bike',
-            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ',
-            isPreferred: false,
-            imgLink: "resources/img/ebike.jpg",
-        },
-        {
-            value: 'tricycle',
-            title: 'Tricycle',
-            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ',
-            isPreferred: false,
-            imgLink: "resources/img/tric.jpg",
-        },
-        {
-            value: 'multicab',
-            title: 'Multicab',
-            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ',
-            isPreferred: false,
-            imgLink: "resources/img/multicab.jpg",
-        },
-        {
-            value: 'motorcycle',
-            title: 'Motorcycle',
-            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ',
-            isPreferred: false,
-            imgLink: "resources/img/motor.jpg",
-        },
-    ];
-      
+    
+    
+    
+    // In your VehicleTypesCard component, update the checkbox like this:
+    
       
       
 
@@ -130,13 +161,16 @@ export default function Settings({ auth }) {
                                 
                                 {vehicleTypes.slice(0, 4).map((vehicle, index) => (
                                     <VehicleTypesCard
-                                    key={index}
-                                    title={vehicle.title}
-                                    rate={vehicle.rate}
-                                    description={vehicle.description}
-                                    isPreferred={vehicle.isPreferred}
-                                    imgLink={vehicle.imgLink}
-                                    index={index}
+                                        key={index}
+                                        value={vehicle.value}
+                                        title={vehicle.title}
+                                        rate={vehicle.rate}
+                                        description={vehicle.description}
+                                        isPreferred={vehicle.isPreferred}
+                                        imgLink={vehicle.imgLink}
+                                        index={index}
+                                        selectedVehicles={selectedVehicles}
+                                        setSelectedVehicles={setSelectedVehicles}
                                     />
                                 ))}
                                 </div>
@@ -144,13 +178,16 @@ export default function Settings({ auth }) {
                                 
                                 {vehicleTypes.slice(4, 8).map((vehicle, index) => (
                                     <VehicleTypesCard
-                                    key={index}
-                                    title={vehicle.title}
-                                    rate={vehicle.rate}
-                                    description={vehicle.description}
-                                    isPreferred={vehicle.isPreferred}
-                                    imgLink={vehicle.imgLink}
-                                    index={index + 4} // Adjust the index for the second row
+                                        key={index}
+                                        value={vehicle.value}
+                                        title={vehicle.title}
+                                        rate={vehicle.rate}
+                                        description={vehicle.description}
+                                        isPreferred={vehicle.isPreferred}
+                                        imgLink={vehicle.imgLink}
+                                        index={index + 4} // Adjust the index for the second row
+                                        selectedVehicles={selectedVehicles}
+                                        setSelectedVehicles={setSelectedVehicles}
                                     />
                                 ))}
                             </div>
@@ -206,7 +243,7 @@ export default function Settings({ auth }) {
 
                             {/* Submit Button */}
                             <div className="mt-4">
-                                <PrimaryButton disabled={processing}>Save Preferences</PrimaryButton>
+                                <PrimaryButton disabled={processing} className='w-full'>Save Preferences</PrimaryButton>
                             </div>
                         </form>
                     </section>

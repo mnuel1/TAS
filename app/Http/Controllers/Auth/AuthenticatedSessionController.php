@@ -11,7 +11,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use Inertia\Response;
-
+use App\Models\Vehicles;
+use App\Models\Appointment;
 
 
 class AuthenticatedSessionController extends Controller
@@ -35,7 +36,19 @@ class AuthenticatedSessionController extends Controller
         $request->authenticate();
 
         $request->session()->regenerate();
-        
+
+        // Find all vehicles with associated appointments
+        $vehiclesWithAppointments = Vehicles::has('appointments')->get();
+
+        // Update the 'occupied' column to true for vehicles with appointments
+        $vehiclesWithAppointments->each(function ($vehicle) {
+            $vehicle->update(['occupied' => true]);
+        });
+
+        // Update the 'occupied' column to false for vehicles without appointments
+        Vehicles::whereNotIn('id', $vehiclesWithAppointments->pluck('id')->toArray())
+            ->update(['occupied' => false]);
+
         return redirect()->intended(RouteServiceProvider::HOME);
     }
 

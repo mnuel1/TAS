@@ -6,6 +6,8 @@ use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\VehiclesListController;
 use App\Models\UserAppointmentHistory;
+use App\Models\UserPreference;
+use App\Http\Controllers\UserPreferenceController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -57,6 +59,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/appoint', [AppointmentController::class, 'show'])->name('appoint.show');
     Route::post('/appoint', [AppointmentController::class, 'store'])->name('appoint.store');
     Route::get('/appoint/history', [AppointmentController::class, 'history'])->name('appoint.history');
+
+    Route::patch('/settings', [UserPreferenceController::class, 'storePreferences'])->name('settings.update');
+
     
 });
 
