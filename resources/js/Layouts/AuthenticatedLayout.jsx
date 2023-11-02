@@ -138,7 +138,7 @@ export default function Authenticated({ user, header, children }) {
     };
     
     return (
-        <div className="min-w-screen bg-gray-100 flex">
+        <div className="min-w-screen min-h-screen bg-gray-100 flex">
             <Card className={`absolute md:relative z-10 md:block min-h-screen max-w-[20rem] p-4 shadow-xl shadow-blue-gray-900/5 ${open ? '' : 'hidden'}`}>
                 <div className="mb-2 items-center gap-4 p-4 mt-[5rem] md:mt-0">
                     <Link href="/">
@@ -211,7 +211,6 @@ export default function Authenticated({ user, header, children }) {
                             />
                             <div className="max-w-7xl py-6 px-4 sm:px-6 lg:px-8 ">{header}</div>
                         </div>
-                        {/* <div className="mx-0 md:mx-[10%]"> <NotificationBell/> </div>                   */}
 
                     </div>
                 )}

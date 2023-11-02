@@ -48,57 +48,63 @@ export default function Notification({ auth }) {
         >
         <Head title="Notification" />
 
-        <div className="py-12">
+        <div className="py-12 h-screen">
             <div className="w-full mx-auto sm:px-6 lg:px-8 space-y-6">
                 <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div className="p-4">
                         <h3 className="text-lg font-semibold mb-4"></h3>
-                        <div className="space-x-4 mb-4 flex justify-between mx-5">
-                            <div className='space-x-4 mb-4'>
+                        <div className="mb-4 mx-5">
+                            <div className="space-x-4 mb-4 flex flex-col sm:flex-row justify-between">
+                                <div className="space-x-4 mb-4 sm:mb-0">
+                                    <button
+                                        onClick={() => setFilter("all")}
+                                        className={`${
+                                            filter === "all"
+                                                ? 'border-indigo-400 text-gray-900 focus:border-indigo-700 '
+                                                : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:text-gray-700 focus:border-gray-300 '
+                                        } px-4 py-2 rounded border-b-2`}
+                                    >
+                                        All
+                                    </button>
+                                    <button
+                                        onClick={() => setFilter("unread")}
+                                        className={`${
+                                            filter === "unread"
+                                                ? 'border-indigo-400 text-gray-900 focus:border-indigo-700 '
+                                                : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:text-gray-700 focus:border-gray-300 '
+                                        } px-4 py-2 rounded border-b-2`}
+                                    >
+                                        Unread
+                                    </button>
+                                    <button
+                                        onClick={() => setFilter("read")}
+                                        className={`${
+                                            filter === "read"
+                                                ? 'border-indigo-400 text-gray-900 focus:border-indigo-700 '
+                                                : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:text-gray-700 focus:border-gray-300 '
+                                        } px-4 py-2 rounded border-b-2`}
+                                    >
+                                        Read
+                                    </button>
+                                </div>
+
                                 <button
-                                    onClick={() => setFilter("all")}
-                                    className={`${
-                                        filter === "all" ? 'border-indigo-400 text-gray-900 focus:border-indigo-700 '
-                                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:text-gray-700 focus:border-gray-300 '
-                                    } px-4 py-2 rounded border-b-2 `}
+                                    onClick={markAllAsRead}
+                                    className="bg-transparent text-gray-900 px-4 py-1 h-fit rounded 
+                                                            hover:border-indigo-400 border-b-2 focus:border-indigo-700"
                                 >
-                                All
-                                </button>
-                                <button
-                                    onClick={() => setFilter("unread")}
-                                    className={`${
-                                        filter === "unread" ? 'border-indigo-400 text-gray-900 focus:border-indigo-700 '
-                                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:text-gray-700 focus:border-gray-300 '
-                                    } px-4 py-2 rounded border-b-2`}
-                                >
-                                Unread
-                                </button>
-                                <button
-                                    onClick={() => setFilter("read")}
-                                    className={`${
-                                        filter === "read" ? 'border-indigo-400 text-gray-900 focus:border-indigo-700 '
-                                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:text-gray-700 focus:border-gray-300 '
-                                    } px-4 py-2 rounded border-b-2`}
-                                >
-                                Read
+                                    Read All
                                 </button>
                             </div>
-                            
-                            <button
-                                onClick={markAllAsRead}
-                                className="bg-transparent text-gray-900 px-4 py-1 h-fit rounded 
-                                        hover:border-indigo-400 border-b-2 focus:border-indigo-700 "
-                            >
-                            Read All
-                            </button>
                         </div>
+
                         <ul>
                             {filteredNotifications.length > 0 ? (
                                 filteredNotifications.map((notification,index) => (
                                     <li
                                         key={index}
                                         className={`${
-                                        notification.read ? "bg-white" : "bg-gray-100"
+                                        notification.read ? "bg-white" : "bg-gray-300"
                                         } p-4 mb-2 rounded hover:bg-gray-200 cursor-pointer`}
                                     >
                                         <p className="text-sm">{notification.title}</p>

@@ -12,12 +12,15 @@ import  motor  from '../../img/motor.jpg'
 import  multicab  from '../../img/multicab.jpg'
 import  tric  from '../../img/tric.jpg'
 import  van  from '../../img/van.jpg'
-
+import TextInput from '@/Components/TextInput';
+import InputLabel from '@/Components/InputLabel';
+import InputError from '@/Components/InputError';
 
 
 export default function Settings({ auth }) {
 
     const user = usePage().props.auth.preference;
+    
     
     const { data, setData, patch, errors, processing, recentlySuccessful } = useForm({
         user_preferred_vehicles_id: user.user_preferred_vehicles_id,
@@ -27,112 +30,91 @@ export default function Settings({ auth }) {
         sms_notif: user.sms_notif,
 
     });
-    // Define states for user preferences    
-    const [pickupLocation, setPickupLocation] = useState('');
-    const [dropoffLocation, setDropoffLocation] = useState('');
-    const [notificationPreferences, setNotificationPreferences] = useState({
-        email: false,
-        sms: false,
-    });
+    
 
     const vehicleTypes = [
         {
             value: 1,
-            title: 'L300',            
-            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ',
-            isPreferred: false,
+            title: 'L300',
+            description: 'This is the L300 vehicle. It is a small and efficient cargo van.',
+            isPreferred: (data.user_preferred_vehicles_id & 1) === 1 ? true : false,
             imgLink: l300,
         },
         {
             value: 2,
             title: 'Van',
-            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ',
-            isPreferred: false,
+            description: 'The Van is a versatile vehicle often used for transporting passengers or cargo.',
+            isPreferred: (data.user_preferred_vehicles_id & 2) === 2 ? true : false,
             imgLink: van,
         },
         {
             value: 4,
             title: 'Car',
-            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ',
-            isPreferred: false,
+            description: 'The Car is a personal vehicle commonly used for daily commuting.',
+            isPreferred: (data.user_preferred_vehicles_id & 4) === 4 ? true : false,
             imgLink: car,
         },
         {
             value: 8,
             title: 'Bike',
-            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ',
-            isPreferred: false,
+            description: 'The Bike is a two-wheeled vehicle often used for short-distance travel and exercise.',
+            isPreferred: (data.user_preferred_vehicles_id & 8) === 8 ? true : false,
             imgLink: bike,
         },
         {
             value: 16,
             title: 'E-Bike',
-            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ',
-            isPreferred: false,
+            description: 'The E-Bike is an electric bicycle with a motor for easier pedaling.',
+            isPreferred: (data.user_preferred_vehicles_id & 16) === 16 ? true : false,
             imgLink: ebike,
         },
         {
             value: 32,
             title: 'Tricycle',
-            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ',
-            isPreferred: false,
+            description: 'The Tricycle is a three-wheeled vehicle used for various purposes, including transportation and cargo delivery.',
+            isPreferred: (data.user_preferred_vehicles_id & 32) === 32 ? true : false,
             imgLink: tric,
         },
         {
             value: 64,
             title: 'Multicab',
-            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ',
-            isPreferred: false,
+            description: 'The Multicab is a small, multipurpose vehicle suitable for different transport needs.',
+            isPreferred: (data.user_preferred_vehicles_id & 64) === 64 ? true : false,
             imgLink: multicab,
         },
         {
             value: 128,
             title: 'Motorcycle',
-            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ',
-            isPreferred: false,
+            description: 'The Motorcycle is a two-wheeled vehicle powered by an engine, commonly used for personal transportation.',
+            isPreferred: (data.user_preferred_vehicles_id & 128) === 128 ? true : false,
             imgLink: motor,
         },
     ];
+           
+    const [selectedVehicles, setSelectedVehicles] = useState(() => {
+        const preferredVehicles = vehicleTypes
+            .filter((vehicle) => vehicle.isPreferred)
+            .map((vehicle) => vehicle.title);
+        return preferredVehicles;
+    });
     
-    const [selectedVehicles, setSelectedVehicles] = useState([]);
-    useEffect(() => {
     
-        console.log(selectedVehicles);
-    }, [selectedVehicles]);
-
-    
-    // Function to handle form submissions
     const handleSubmit = (e) => {
         e.preventDefault();
-
-        // Calculate the sum of the values of selected vehicles
-        const vehiclePreference = selectedVehicles.reduce((acc, title) => {
+    
+        let vehiclePreference = 0;
+    
+        for (const title of selectedVehicles) {
             const vehicle = vehicleTypes.find((v) => v.title === title);
             if (vehicle) {
-                return acc + vehicle.value;
+                vehiclePreference += vehicle.value;
             }
-
-            return acc;
-        }, 0);
-
-
-        // Gather the user's updated preferences
-        const updatedPreferences = {
-            vehiclePreference: vehiclePreference,
-            pickupLocation: pickupLocation,
-            dropoffLocation: dropoffLocation,
-            notificationPreferences: notificationPreferences,
-        };
-        patch(route('settings.update'))
+        }        
+        data.user_preferred_vehicles_id = vehiclePreference
+            
+        patch(route('settings.update'))                            
     };
-
-    
-    
-    
-    // In your VehicleTypesCard component, update the checkbox like this:
-    
-      
-      
+                    
 
     return (
         <AuthenticatedLayout
@@ -144,7 +126,7 @@ export default function Settings({ auth }) {
         <div className="py-12">
             <div className="w-full mx-auto sm:px-6 lg:px-8 space-y-6">
                 <div className="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
-                    <section className="max-w-min">
+                    <section className="max-w-full">
                         <header>
                             <h2 className="text-lg font-medium text-gray-900">Personal Preference</h2>
 
@@ -157,7 +139,7 @@ export default function Settings({ auth }) {
                             {/* Vehicle Types */}
                             <label className="block text-sm font-medium text-gray-700">Vehicle Types</label>
 
-                            <div className="mb-4 flex justify-between items-center w-full gap-2 flex-col lg:flex-row ">
+                            <div className="mb-4 flex flex-nowrap flex-col md:flex-row md:flex-wrap justify-center items-center w-full ">
                                 
                                 {vehicleTypes.slice(0, 4).map((vehicle, index) => (
                                     <VehicleTypesCard
@@ -170,11 +152,12 @@ export default function Settings({ auth }) {
                                         imgLink={vehicle.imgLink}
                                         index={index}
                                         selectedVehicles={selectedVehicles}
-                                        setSelectedVehicles={setSelectedVehicles}
+                                        setSelectedVehicles={setSelectedVehicles}                                    
+                                        
                                     />
                                 ))}
-                                </div>
-                            <div className="mb-4 flex justify-between items-center w-full flex-col lg:flex-row">
+                            </div>
+                            <div className="mb-4 flex flex-nowrap flex-col md:flex-row md:flex-wrap justify-center items-center w-full">
                                 
                                 {vehicleTypes.slice(4, 8).map((vehicle, index) => (
                                     <VehicleTypesCard
@@ -188,32 +171,44 @@ export default function Settings({ auth }) {
                                         index={index + 4} // Adjust the index for the second row
                                         selectedVehicles={selectedVehicles}
                                         setSelectedVehicles={setSelectedVehicles}
+                                        
                                     />
                                 ))}
                             </div>
 
-
-
                             {/* Pick-up Location */}
                             <div className="mb-4">
-                                <label className="block text-sm font-medium text-gray-700">Pick-up Location</label>
-                                <input
-                                    type="text"
-                                    className="mt-1 p-2 w-full border rounded-md"
+                                
+                                <InputLabel htmlFor="pickup_loc" value="Pick-up Location" className="block text-sm font-medium text-gray-700"/>
+
+                                <TextInput
+                                    id="pickup_loc"    
                                     value={data.pickup_loc}
-                                    onChange={(e) => setPickupLocation(e.target.value)}
+                                    onChange={(e) => setData('pickup_loc', e.target.value)}
+                                    type="text"
+                                    className="mt-1 p-2 w-full border rounded-md"                                    
                                 />
+
+                                <InputError message={errors.pickup_loc} className="mt-2" />
                             </div>
 
                             {/* Drop-off Location */}
                             <div className="mb-4">
-                                <label className="block text-sm font-medium text-gray-700">Drop-off Location</label>
-                                <input
+                                <InputLabel htmlFor="dropoff_loc" value="Drop-off Location" className="block text-sm font-medium text-gray-700"/>
+                                
+                                <TextInput
+                                    id="dropoff_loc"    
+                                    value={data.dropoff_loc}
+                                    onChange={(e) => setData('dropoff_loc', e.target.value)}
                                     type="text"
                                     className="mt-1 p-2 w-full border rounded-md"
-                                    value={data.dropoff_loc}
-                                    onChange={(e) => setDropoffLocation(e.target.value)}
+                                    
                                 />
+
+                                <InputError message={errors.dropoff_loc} className="mt-2" />
+
+
+
                             </div>
 
                             {/* Notification Preferences */}
@@ -225,7 +220,7 @@ export default function Settings({ auth }) {
                                         type="checkbox"
                                         className="form-checkbox"
                                         checked={data.email_notif}
-                                        onChange={(e) => setNotificationPreferences({ ...notificationPreferences, email: e.target.checked })}
+                                        onChange={(e) => setData('email_notif', e.target.checked )}
                                         />
                                         <span className="ml-2">Email</span>
                                     </label>
@@ -234,7 +229,7 @@ export default function Settings({ auth }) {
                                         type="checkbox"
                                         className="form-checkbox"
                                         checked={data.sms_notif}
-                                        onChange={(e) => setNotificationPreferences({ ...notificationPreferences, sms: e.target.checked })}
+                                        onChange={(e) => setData('sms_notif', e.target.checked )}
                                         />
                                         <span className="ml-2">SMS</span>
                                     </label>

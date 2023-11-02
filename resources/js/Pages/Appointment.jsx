@@ -4,19 +4,37 @@ import { VehicleCard } from '@/Components/VehiclesCard';
 import React,{ useState } from 'react';
 import { Pagination } from '@/Components/Pagination';
 import { usePage } from '@inertiajs/react';
+import  bike  from '../../img/bike.jpg'
+import  car  from '../../img/car.jpg'
+import  ebike  from '../../img/ebike.jpg'
+import  l300  from '../../img/l300.jpg'
+import  motor  from '../../img/motor.jpg'
+import  multicab  from '../../img/multicab.jpg'
+import  tric  from '../../img/tric.jpg'
+import  van  from '../../img/van.jpg'
 
 export default function Appointment({ auth }) {
     const [activePage, setActivePage] = useState(1); // Initialize the active page
 
     const { vehicles } = usePage().props;
-      
+    console.log(vehicles);
     // Determine the range of vehicles to display on the current page
     const vehiclesPerPage = 6; // Number of vehicles to display per page
     const startIndex = (activePage - 1) * vehiclesPerPage;
     const endIndex = Math.min(startIndex + vehiclesPerPage, vehicles.length); // Ensure endIndex doesn't exceed the number of vehicles
     
     const visibleVehicles = vehicles.slice(startIndex, endIndex);
-    console.log(auth.user);
+    // Create a map to match vehicle.img with imported images
+    const vehicleImageMap = {
+        'bike': bike,
+        'car': car,
+        'ebike': ebike,
+        'l300': l300,
+        'motor': motor,
+        'multicab': multicab,
+        'tric': tric,
+        'van': van,
+    };
     return (
         <AuthenticatedLayout
             user={auth.user}
@@ -24,9 +42,8 @@ export default function Appointment({ auth }) {
         >
             <Head title="Appointment" />
 
-            <div className="py-12">
-                <div className="w-full mx-auto sm:px-6 lg:px-8">
-                
+            <div className="py-12 flex justify-center items-center">
+                <div className="w-[80%] lg:w-full lg:mx-auto sm:px-6 lg:px-8 ">                
                     <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                         <div className="p-4">
                             <h3 className="text-lg font-semibold mb-4"></h3>
@@ -40,12 +57,19 @@ export default function Appointment({ auth }) {
                                 </Link>
                             </div>
                             
-                            <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg flex flex-wrap justify-between">
+                            <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg flex flex-nowrap flex-col md:flex-row md:flex-wrap justify-center items-center">
                                 {visibleVehicles.map((vehicle, index) => (
-                                    <div key={index} className="inline-block mr-4 mb-4">
-                                        <VehicleCard id={vehicle.id} model={vehicle.model} driver={vehicle.driver} 
-                                            rate={vehicle.rate} ratings={vehicle.ratings}
-                                            description={vehicle.description} imgLink={vehicle.imgLink} occupied={vehicle.occupied}/>
+                                    <div key={index} className="inline-block mr-4 mb-4">                                       
+                                       <VehicleCard
+                                            id={vehicle.id}
+                                            model={vehicle.model}
+                                            driver={vehicle.driver}
+                                            rate={vehicle.rate}
+                                            ratings={vehicle.ratings}
+                                            description={vehicle.description}
+                                            img={vehicleImageMap[vehicle.img]} // Use the vehicleImageMap to get the image source
+                                            occupied={vehicle.occupied}
+                                        />
                                             {/* isPreferred={vehicle.isPreferred} */}
                                     </div>
                                 ))}                               

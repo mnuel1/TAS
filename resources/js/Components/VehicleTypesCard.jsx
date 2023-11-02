@@ -41,8 +41,14 @@ export function VehicleTypesCard({ value, title, rate, description, isPreferred,
                 <div className="flex items-center justify-center w-full rounded-xl bg-blue-gray-900/10 text-blue-gray-900 shadow-none hover:scale-105 hover:shadow-none focus:scale-105 focus:shadow-none active:scale-100">                    
                     <Checkbox                        
                         checked={selectedVehicles.includes(title)}
-                        onChange={(e) => handleVehicleChange()}
-
+                        onChange={(e) => {
+                            // Update the selected vehicles when the checkbox changes
+                            if (e.target.checked) {
+                              setSelectedVehicles([...selectedVehicles, title]);
+                            } else {
+                              setSelectedVehicles(selectedVehicles.filter((v) => v !== title));
+                            }                                           
+                        }}
                         ripple={false}
                         className="h-8 w-8 rounded-full border-gray-900/20 bg-gray-900/10 transition-all hover:scale-105 hover:before:opacity-0"
                     />

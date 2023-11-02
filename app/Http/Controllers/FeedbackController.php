@@ -48,6 +48,13 @@ class FeedbackController extends Controller
             'comment' => $request->input('comment'),
         ]);
 
+        $vehicleId = $request->input('vehicles_id');
+        $ratings = Feedback::where('vehicles_id', $vehicleId)->pluck('rating');
+
+        $newRating = $ratings->avg();
+        Vehicles::where('id', $vehicleId)->update(['rating' => $newRating]);
+
+
         return back();
     
     }

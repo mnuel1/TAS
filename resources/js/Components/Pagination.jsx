@@ -25,7 +25,7 @@ export function Pagination({ activePage, setActivePage }) {
     };
     
     return (
-        <div className="flex items-center gap-4">
+        <div className="flex flex-col items-center gap-4 sm:flex-row">
             <Button
                 variant="text"
                 className="flex items-center gap-2 rounded-full"
@@ -51,5 +51,6 @@ export function Pagination({ activePage, setActivePage }) {
                 <ArrowRightIcon strokeWidth={2} className="h-4 w-4" />
             </Button>
         </div>
-  );
+    );
+    
 }

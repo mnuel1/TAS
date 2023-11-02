@@ -64,7 +64,7 @@ const AppointmentForm = (props) => {
                             <div>
                                 <h2 className="text-2xl font-semibold mb-4">Create an Appointment</h2>
                                 <form onSubmit={handleSubmit}>                                        
-                                    <div className='flex w-full gap-2'>
+                                    <div className='flex flex-col xl:flex-row w-full gap-2'>
                                         <div className="mb-4 w-full ">
                                             <InputLabel htmlFor="startDate" value="Start Date" className='text-black'/>
                                             <TextInput

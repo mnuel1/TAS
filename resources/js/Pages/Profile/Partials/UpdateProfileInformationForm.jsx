@@ -35,7 +35,7 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
             </header>
 
             <form onSubmit={submit} className="mt-6 space-y-6">
-                <div className='flex w-full gap-4'>
+                <div className='flex flex-col md:flex-row w-full gap-4'>
 
                     <div className='w-full'>
                         <InputLabel htmlFor="name" value="Name" />
@@ -69,7 +69,7 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
                         <InputError className="mt-2" message={errors.email} />
                     </div>
                 </div>
-                <div className='flex w-full gap-4'>
+                <div className='flex flex-col md:flex-row  w-full gap-4'>
                     <div className='w-full'>
                         <InputLabel htmlFor="number" value="Phone Number" />
 

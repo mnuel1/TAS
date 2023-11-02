@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 use Inertia\Response;
-use App\Models\UserPreferredVehicle;
+use App\Models\UserPreference;
 
 
 class UserPreferenceController extends Controller
@@ -46,29 +46,43 @@ class UserPreferenceController extends Controller
     {
         $user = auth()->user();
 
-        // Validate the incoming request data, e.g., the vehicle ID.
+        // Validate the incoming request data, e.g., the user preferences.
         $request->validate([
-            'vehicle_id' => 'required|integer|exists:vehicles,id',
+            'user_preferred_vehicles_id' => 'required|integer',
+            'pickup_loc' => 'required|string',
+            'dropoff_loc' => 'required|string',
+            'email_notif' => 'boolean',
+            'sms_notif' => 'boolean',
         ]);
 
-        // Check if the user already has this vehicle in preferences.
-        $userPreferred = UserPreferredVehicle::where('user_id', $user->id)
-            ->where('vehicle_id', $request->input('vehicle_id'))
-            ->first();
+        // Check if the user already has preferences, or create a new entry.
+        $userPreferences = UserPreference::where('user_id', $user->id)->first();
+        
+        // dd($userPreferences);
 
-        // If not, create a new user preference entry.
-        if (!$userPreferred) {
-            UserPreferredVehicle::create([
+        if ($userPreferences) {
+            // User preferences already exist, update them.
+            $userPreferences->update([
+                'user_preferred_vehicles_id' => $request->input('user_preferred_vehicles_id'),
+                'pickup_loc' => $request->input('pickup_loc'),
+                'dropoff_loc' => $request->input('dropoff_loc'),
+                'email_notif' => $request->input('email_notif'),
+                'sms_notif' => $request->input('sms_notif'),
+            ]);
+        } else {
+            // User preferences don't exist, create a new entry.
+            UserPreference::create([
                 'user_id' => $user->id,
-                'user_preferred_vehicles_id' => $request->input('vehiclePreferences'),
-                'user_preferred_vehicles_id' => $request->input('pickupLocation'),
-                'user_preferred_vehicles_id' => $request->input('dropoffLocation'),
+                'user_preferred_vehicles_id' => $request->input('user_preferred_vehicles_id'),
+                'pickupLocation' => $request->input('pickup_loc'),
+                'dropoffLocation' => $request->input('dropoff_loc'),
                 'email_notif' => $request->input('email_notif'),
                 'sms_notif' => $request->input('sms_notif'),
             ]);
         }
 
-        return response()->json(['message' => 'Preference stored successfully']);
+
+        // return response()->json(['message' => 'Preference stored successfully']);
     }
     
 
