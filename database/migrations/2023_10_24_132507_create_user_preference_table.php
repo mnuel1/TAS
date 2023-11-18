@@ -22,7 +22,7 @@ return new class extends Migration
                 ->on('users')
                 ->onDelete('cascade'); // Define foreign key constraint
 
-            $table->unsignedBigInteger('user_preferred_vehicles_id');
+            $table->unsignedBigInteger('user_preferred_vehicles_id')->nullable();
             $table->foreign('user_preferred_vehicles_id')
                 ->references('id')
                 ->on('user_preferred_vehicles')

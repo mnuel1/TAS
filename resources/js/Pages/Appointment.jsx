@@ -12,6 +12,11 @@ import  motor  from '../../img/motor.jpg'
 import  multicab  from '../../img/multicab.jpg'
 import  tric  from '../../img/tric.jpg'
 import  van  from '../../img/van.jpg'
+import { Typography } from 'antd';
+
+const { Title } = Typography;
+import { Tag } from 'antd';
+
 
 export default function Appointment({ auth }) {
     const [activePage, setActivePage] = useState(1); // Initialize the active page
@@ -35,6 +40,8 @@ export default function Appointment({ auth }) {
         'tric': tric,
         'van': van,
     };
+    // TODO CREATE A REQUEST TO FETCH THE NUMBER OF VEHICLES AVAILBBLE PER CATEGORY
+    const count = 1;
     return (
         <AuthenticatedLayout
             user={auth.user}
@@ -56,7 +63,21 @@ export default function Appointment({ auth }) {
                                 See History
                                 </Link>
                             </div>
-                            
+                            <Title level={5} className='ml-4'>Number of Vehicles available for each category</Title>
+                            <div className='flex p-4 gap-2'>
+                                
+                                
+                                <Tag color="green">L300 {count} </Tag>
+                                <Tag color="green">Van {count}</Tag>
+                                <Tag color="green">Car {count}</Tag>
+                                <Tag color="green">Bike {count}</Tag>
+                                <Tag color="green">E-bike {count}</Tag>
+                                <Tag color="green">Tricycle {count}</Tag>
+                                <Tag color="green">Multi cab {count}</Tag>
+                                <Tag color="green">Motorcycle {count}</Tag>
+                                
+
+                            </div>
                             <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg flex flex-nowrap flex-col md:flex-row md:flex-wrap justify-center items-center">
                                 {visibleVehicles.map((vehicle, index) => (
                                     <div key={index} className="inline-block mr-4 mb-4">                                       

@@ -15,6 +15,7 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
         email: user.email,
         birthday: user.birthday,
         number: user.number,
+        address: user.address,
 
     });
 
@@ -104,7 +105,22 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
                         <InputError message={errors.birthday} className="mt-2" />
                     </div>
                 </div>
+                <div className='w-full'>
+                        <InputLabel htmlFor="address" value="Address" />
 
+                        <TextInput
+                            id="address"
+                            type="text"
+                            name="address"
+                            value={data.address}
+                            className="mt-1 block w-full"
+                            autoComplete="username"
+                            onChange={(e) => setData('address', e.target.value)}
+                            required
+                        />
+
+                        <InputError message={errors.address} className="mt-2" />
+                    </div>
 
                 {mustVerifyEmail && user.email_verified_at === null && (
                     <div>

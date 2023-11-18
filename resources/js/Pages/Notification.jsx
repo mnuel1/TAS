@@ -109,6 +109,8 @@ export default function Notification({ auth }) {
                                     >
                                         <p className="text-sm">{notification.title}</p>
                                         <p className="text-xs text-gray-500">{notification.date}</p>
+                                        // TODO STATUS PENDING,APPROVED,REJECTED
+                                        <p className="text-xs text-gray-500">{notification.status}</p>
                                         {!notification.read && (
                                         <button
                                             onClick={() => markAsRead(notification.id)}

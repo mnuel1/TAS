@@ -19,7 +19,8 @@ return new class extends Migration
             $table->string('password');
             $table->timestamp('birthday')->nullable();
             $table->string('number');
-
+            $table->string('address');
+            $table->enum('access',["1","2","3"]);   
             
             $table->rememberToken();
             $table->timestamps();

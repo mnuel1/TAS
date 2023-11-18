@@ -5,12 +5,14 @@ import InputLabel from '@/Components/InputLabel';
 import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from '@/Components/TextInput';
 import { Head, Link, useForm } from '@inertiajs/react';
-
+import AccessSelect from '../../Components/Select'
 export default function Register({ switchView }) {
     const { data, setData, post, processing, errors, reset } = useForm({
+        access: 1,
         name: '',
         email: '',
         number: '',
+        address:'',
         birthday: '',
         password: '',
         password_confirmation: '',
@@ -25,6 +27,7 @@ export default function Register({ switchView }) {
     const submit = (e) => {
         e.preventDefault();
         
+        
         post(route('register'));
         
     };
@@ -36,7 +39,9 @@ export default function Register({ switchView }) {
                 <div className='bg-white flex justify-center items-center w-full md:w-[60%] rounded-3xl p-4 border'>
                     <div className="flex items-center flex-col gap-4 h-full max-w-full md:w-[50%] bg-[#3b37ff] rounded-2xl p-6">
                         <div className="flex w-full">
-                            <h1 className='text-xs font-extrabold text-left text-white'>TITLE</h1>
+                            <h1 className='text-xs font-extrabold text-left text-white'>
+                                Transport Appointment System in North Daang Hari 
+                            </h1>
                         </div>
 
                         <div className='flex justify-center flex-col w-full h-full'>
@@ -64,6 +69,9 @@ export default function Register({ switchView }) {
                             Have an Account ? ‎ <p className='text-[#3b37ff]'> Login </p>
                         </Link>       
                         <form onSubmit={submit}>
+                            <div className="mt-4">
+                                <AccessSelect accessLevel={setData}/>
+                            </div>
                             <div className='flex gap-4 w-full'>            
                                 <div>
                                     <InputLabel htmlFor="name" value="Name" />
@@ -114,6 +122,22 @@ export default function Register({ switchView }) {
 
                                     <InputError message={errors.number} className="mt-2" />
                                 </div>
+                                <div>
+                                    <InputLabel htmlFor="address" value="Address" />
+
+                                    <TextInput
+                                        id="address"
+                                        name="address"
+                                        value={data.address}
+                                        className="mt-1 block w-full"
+                                        autoComplete="address"
+                                        isFocused={true}
+                                        onChange={(e) => setData('address', e.target.value)}
+                                        required
+                                    />
+
+                                    <InputError message={errors.address} className="mt-2" />
+                                </div>
                             </div>
                             
                             <div className="">
@@ -149,6 +173,8 @@ export default function Register({ switchView }) {
 
                                 <InputError message={errors.password} className="mt-2" />
                             </div>
+
+                            
 
                             <div className="mt-4">
                                 <InputLabel htmlFor="password_confirmation" value="Confirm Password" />

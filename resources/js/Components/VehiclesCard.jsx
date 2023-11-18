@@ -48,10 +48,10 @@ export function VehicleCard({ id, model, driver, rate, ratings, img, description
                         {ratings}
                     </Typography>
                 </div>
-                <div className="flex justify-between items-center w-full"> 
+                {/* <div className="flex justify-between items-center w-full"> 
                     <div>{driver}</div> 
                     ₱ {rate} per hour   
-                </div>
+                </div> */}
                 <Typography color="gray"> {description} </Typography>
 
                 
