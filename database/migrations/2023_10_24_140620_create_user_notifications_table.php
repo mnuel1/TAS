@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('title');            
             $table->string('date');
             $table->boolean('read');
+            $table->enum('status',['Approved', 'Rejected', 'Pending']);
             $table->timestamps();
 
             // foreign key

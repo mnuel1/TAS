@@ -3,14 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Http\JsonResponse;
-use App\Http\Requests\ProfileUpdateRequest;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
-use Inertia\Response;
 use App\Models\Vehicles;
 
 class VehiclesListController extends Controller
@@ -18,16 +12,70 @@ class VehiclesListController extends Controller
     /**
      * Display the vehicles.
      *
-     * @param  \App\Models\Appointment  $appointment
-     * @return \Illuminate\Http\Response
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Inertia\Response
      */
-    public function show(Request $request): Response
+    public function show(Request $request)
     {  
-        // Retrieve all vehicles from the 'vehicle' table
+        // Retrieve all vehicles from the 'vehicles' table
         $vehicles = Vehicles::all();
         
         return Inertia::render('Appointment', [
             'vehicles' => $vehicles,
         ]);
+    }
+
+    /**
+     * Show the form for creating a new vehicle.
+     *
+     * @return \Inertia\Response
+     */
+    public function create()
+    {
+        // Retrieve all vehicles from the 'vehicles' table
+        $vehicles = Vehicles::all();
+
+        return Inertia::render('Staff/Vehicles', [
+            'vehicles' => $vehicles,
+        ]);
+    }
+    /**
+     * Store a newly created vehicle in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function store(Request $request)
+    {
+        $validatedData = $request->validate([
+            'model' => 'required',
+            'img' => 'required',
+            'driver' => 'required',
+            'rate' => 'nullable',
+            'ratings' => 'required',
+            'description' => 'required',
+            'occupied' => 'required',
+            // Add other fields as needed
+        ]);
+        
+        $vehicle = Vehicles::create($validatedData);
+
+
+        return redirect()->route('staff.create');
+    }
+    
+    /**
+     * Remove the specified vehicle from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function destroy($id)
+    {
+        $vehicle = Vehicles::findOrFail($id);
+        $vehicle->delete();
+
+
+        return redirect()->route('staff.create');
     }
 }

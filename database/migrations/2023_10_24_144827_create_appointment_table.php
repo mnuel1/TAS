@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('pickup_loc');
             $table->string('dropoff_loc');
             $table->timestamps();
+            $table->enum('status',["Approved","Rejected","Pending"]);  
 
 
             $table->foreign('user_id')

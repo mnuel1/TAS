@@ -19,6 +19,37 @@ use App\Models\Vehicles;
 class AppointmentController extends Controller
 {
   
+    // Staff
+    public function getPendingAppointments()
+    {
+        $appointments = Appointment::with(['user', 'vehicle'])
+            ->where(function ($query) {
+                $query->where('status', 'Pending')
+                    ->orWhere('status', 'Rejected');
+            })
+            ->get();
+
+        return response()->json($appointments);
+    }
+    
+
+    public function approveAppointment($userId,$vehicleId)
+    {
+        $appointment = Appointment::where('user_id', $userId)
+        ->where('vehicles_id', $vehicleId)
+        ->firstOrFail();
+        $appointment->update(['status' => 'Approved']);
+        return response()->json($appointment);
+    }
+
+    public function rejectAppointment($userId,$vehicleId)
+    {
+        $appointment = Appointment::where('user_id', $userId)
+        ->where('vehicles_id', $vehicleId)
+        ->firstOrFail();
+        $appointment->update(['status' => 'Rejected']);
+        return response()->json($appointment);
+    }
     
     /**
      * Store a newly created vehicle appointment in storage.
@@ -53,8 +84,7 @@ class AppointmentController extends Controller
         if ($vehicle) {
             $vehicle->update(['occupied' => true]);
             $vehicleModel = $vehicle->model;
-            // Optionally, you can add other fields you want to update in the 'vehicles' table.
-            // Example: $vehicle->update(['occupied' => true, 'another_field' => 'new_value']);
+           
         } else {
             // Handle the case where the vehicle with the provided ID was not found.
         }
@@ -69,6 +99,7 @@ class AppointmentController extends Controller
             'title' => 'Appointment of the vehicle ' . $vehicleModel, 
             'date' => $request->input('startDate') . ' ' . $request->input('endDate'),
             'read' => false,
+            'status' => 'Pending',
             // Add other fields you want to save in userNotification
         ]);
         
@@ -100,7 +131,7 @@ class AppointmentController extends Controller
     public function show(Request $request): Response
     {  
         $vehicles = json_decode($request->input('vehicles'));
-
+       
         return Inertia::render('Appoint/CreateAppointment', [
             'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,
             'status' => session('status'),

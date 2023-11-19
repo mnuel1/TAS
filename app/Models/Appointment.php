@@ -22,7 +22,7 @@ class Appointment extends Model
         'end_appointment',
         'pickup_loc',
         'dropoff_loc',
-        
+        'status',
     ];
 
 

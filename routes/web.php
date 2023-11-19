@@ -3,6 +3,7 @@
 use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\UsersController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\VehiclesListController;
 use App\Models\UserAppointmentHistory;
@@ -41,9 +42,17 @@ Route::get('/appointment', [VehiclesListController::class, 'show'])
 Route::get('/notification', [NotificationController::class, 'show'])
     ->middleware(['auth', 'verified'])
     ->name('notification');
+Route::get('/users', [UsersController::class, 'show'])
+    ->middleware(['auth', 'verified'])
+    ->name('users');
 
+Route::get('/staffs', [UsersController::class, 'showStaff'])
+    ->middleware(['auth', 'verified'])
+    ->name('staffs');
 
-
+Route::get('/staff', [VehiclesListController::class, 'create'])
+    ->middleware(['auth', 'verified'])
+    ->name('staff.create');
 
 Route::get('/settings', function () {
     return Inertia::render('Settings');
@@ -59,9 +68,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/appoint', [AppointmentController::class, 'show'])->name('appoint.show');
     Route::post('/appoint', [AppointmentController::class, 'store'])->name('appoint.store');
     Route::get('/appoint/history', [AppointmentController::class, 'history'])->name('appoint.history');
-
+    
+    
     Route::patch('/settings', [UserPreferenceController::class, 'storePreferences'])->name('settings.update');
-
+    
     
 });
 

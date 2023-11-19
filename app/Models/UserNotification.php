@@ -19,6 +19,7 @@ class UserNotification extends Model
         'title',
         'date',
         'read',        
+        'status',
     ];
 
 

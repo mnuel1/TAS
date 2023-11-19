@@ -5,8 +5,8 @@ import { Select, Space } from 'antd';
 export default function AccessSelect ({accessLevel}) {
       
     const handleChange = (value) => {
-        accessLevel(value)
-        console.log(accessLevel);
+        accessLevel('access',value)
+        
     };
 
 

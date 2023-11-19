@@ -27,7 +27,7 @@ export default function Register({ switchView }) {
     const submit = (e) => {
         e.preventDefault();
         
-        
+        console.log(data);
         post(route('register'));
         
     };

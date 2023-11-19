@@ -1,36 +1,99 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
+import StaffAuthenticated from '@/Layouts/StaffAuthenticatedLayout';
 import DeleteUserForm from './Partials/DeleteUserForm';
 import UpdatePasswordForm from './Partials/UpdatePasswordForm';
 import UpdateProfileInformationForm from './Partials/UpdateProfileInformationForm';
 import { Head } from '@inertiajs/react';
+import AdminAuthenticated from '@/Layouts/AdminAuthenticatedLayout';
 
 export default function Edit({ auth, mustVerifyEmail, status }) {
+
     return (
-        <AuthenticatedLayout
-            user={auth.user}
-            header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Profile</h2>}
-        >
-            <Head title="Profile" />
+        auth.user.access == 1 ? (
+           
+            <AuthenticatedLayout
+                user={auth.user}
+                header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Profile</h2>}
+            >
+                <Head title="Profile" />
 
-            <div className="py-12">
-                <div className="w-full mx-auto sm:px-6 lg:px-8 space-y-6">
-                    <div className="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
-                        <UpdateProfileInformationForm
-                            mustVerifyEmail={mustVerifyEmail}
-                            status={status}
-                            className="max-w-xl"
-                        />
-                    </div>
+                <div className="py-12">
+                    <div className="w-full mx-auto sm:px-6 lg:px-8 space-y-6">
+                        <div className="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
+                            <UpdateProfileInformationForm
+                                mustVerifyEmail={mustVerifyEmail}
+                                status={status}
+                                className="max-w-xl"
+                            />
+                        </div>
 
-                    <div className="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
-                        <UpdatePasswordForm className="max-w-xl" />
-                    </div>
+                        <div className="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
+                            <UpdatePasswordForm className="max-w-xl" />
+                        </div>
 
-                    <div className="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
-                        <DeleteUserForm className="max-w-xl" />
+                        <div className="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
+                            <DeleteUserForm className="max-w-xl" />
+                        </div>
                     </div>
                 </div>
-            </div>
-        </AuthenticatedLayout>
+            </AuthenticatedLayout>
+            
+        ) : auth.user.access == 2 ? (
+            <StaffAuthenticated
+                user={auth.user}
+                header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Profile</h2>}
+            >
+                <Head title="Profile" />
+
+                <div className="py-12">
+                    <div className="w-full mx-auto sm:px-6 lg:px-8 space-y-6">
+                        <div className="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
+                            <UpdateProfileInformationForm
+                                mustVerifyEmail={mustVerifyEmail}
+                                status={status}
+                                className="max-w-xl"
+                            />
+                        </div>
+
+                        <div className="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
+                            <UpdatePasswordForm className="max-w-xl" />
+                        </div>
+
+                        <div className="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
+                            <DeleteUserForm className="max-w-xl" />
+                        </div>
+                    </div>
+                </div>
+            </StaffAuthenticated>
+        ) : (
+            
+            <AdminAuthenticated
+                user={auth.user}
+                header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Profile</h2>}
+            >
+                <Head title="Profile" />
+
+                <div className="py-12">
+                    <div className="w-full mx-auto sm:px-6 lg:px-8 space-y-6">
+                        <div className="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
+                            <UpdateProfileInformationForm
+                                mustVerifyEmail={mustVerifyEmail}
+                                status={status}
+                                className="max-w-xl"
+                            />
+                        </div>
+
+                        <div className="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
+                            <UpdatePasswordForm className="max-w-xl" />
+                        </div>
+
+                        <div className="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
+                            <DeleteUserForm className="max-w-xl" />
+                        </div>
+                    </div>
+                </div>
+            </AdminAuthenticated>
+        )
+        
     );
 }

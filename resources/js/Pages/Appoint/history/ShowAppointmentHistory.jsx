@@ -18,9 +18,7 @@ const HistoryAppointment = (props, auth ) => {
     if (firstRecord) {
         vehicleModel = firstRecord.appointment.vehicle.model;
     }
-    
-
-    
+        
     return (
         <AuthenticatedLayout
             user={auth.user}

@@ -3,6 +3,9 @@
 use App\Http\Controllers\FeedbackController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AppointmentController;
+use App\Http\Controllers\VehiclesListController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -23,3 +26,14 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     Route::get('/comments', [FeedbackController::class, 'show']);
     Route::post('/comments', [FeedbackController::class, 'store']);
 // });
+
+Route::get('/appointments/pending', [AppointmentController::class, 'getPendingAppointments']);
+Route::put('/appointments/{userId}/{vehicleId}/approve', [AppointmentController::class, 'approveAppointment']);
+Route::put('/appointments/{userId}/{vehicleId}/reject', [AppointmentController::class, 'rejectAppointment']);
+
+// Create
+Route::post('/staff/vehicles/add', [VehiclesListController::class, 'store']);
+
+
+// Delete
+Route::delete('/staff/vehicles/{id}/delete', [VehiclesListController::class, 'destroy']);
