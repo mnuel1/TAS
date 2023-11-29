@@ -20,10 +20,10 @@ const { Title } = Typography;
 import { Tag } from 'antd';
 
 import StaffAppointment from './Staff/StaffAppointment';
-
+import Dashboard from './Dashboard';
 export default function Appointment({ auth }) {
     const [activePage, setActivePage] = useState(1); // Initialize the active page
-    
+    const [selectedCategory, setSelectedCategory] = useState('all');
     const { vehicles } = usePage().props;
     
     // Determine the range of vehicles to display on the current page
@@ -67,9 +67,27 @@ export default function Appointment({ auth }) {
         'tric': tric,
         'van': van,
     };
+     // Vehicle category map
+    const vehicleCategoryMap = {
+        'Bike': '2 wheels',
+        'Car': '4 wheels',
+        'E-Bike': '2 wheels',
+        'L300': '4 wheels',
+        'Motorcycle': '2 wheels',
+        'Multicab': '4 wheels',
+        'Tricycle': '3 wheels',
+        'Van': '4 wheels',
+    };
 
+    const handleCategoryChange = (e) => {
+        setSelectedCategory(e.target.value);
+    };
+    
+    const filteredVehicles = selectedCategory === 'all'
+      ? visibleVehicles
+      : visibleVehicles.filter((vehicle) => vehicleCategoryMap[vehicle.model] === selectedCategory);
 
-    console.log(auth.user.access)
+    
     return (
         
         auth.user.access == 1 ? (
@@ -106,23 +124,35 @@ export default function Appointment({ auth }) {
                                     <Tag color="">Multi cab {counts.Multicab}</Tag>
                                     <Tag color="">Motorcycle {counts.Motorcycle}</Tag>
                                     
-                                </div>
+                                </div>          
+                                <div className="flex items-center gap-4 mb-4">
+                                    <label className="text-lg">Filter by Category:</label>
+                                    <select
+                                    value={selectedCategory}
+                                    onChange={handleCategoryChange}
+                                    className="p-2 border border-gray-300 rounded-md"
+                                    >
+                                    <option value="all">All</option>
+                                    <option value="2 wheels">2 Wheels</option>
+                                    <option value="3 wheels">3 Wheels</option>
+                                    <option value="4 wheels">4 Wheels</option>
+                                    </select>
+                                </div>                      
                                 <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg flex flex-nowrap flex-col md:flex-row md:flex-wrap justify-center items-center">
-                                    {visibleVehicles.map((vehicle, index) => (                                                                   
-                                        <div key={index} className="inline-block mr-4 mb-4">                                       
+                                {filteredVehicles.map((vehicle, index) => (
+                                    <div key={index} className="inline-block mr-4 mb-4">
                                         <VehicleCard
-                                                id={vehicle.id}
-                                                model={vehicle.model}
-                                                driver={vehicle.driver}
-                                                rate={vehicle.rate}
-                                                ratings={vehicle.ratings}
-                                                description={vehicle.description}
-                                                img={vehicleImageMap[vehicle.img]} 
-                                                occupied={vehicle.occupied}
-                                            />
-                                                
-                                        </div>
-                                    ))}                               
+                                        id={vehicle.id}
+                                        model={vehicle.model}
+                                        driver={vehicle.driver}
+                                        rate={vehicle.rate}
+                                        ratings={vehicle.ratings}
+                                        description={vehicle.description}
+                                        img={vehicleImageMap[vehicle.img]}
+                                        occupied={vehicle.occupied}
+                                        />
+                                    </div>
+                                ))}                           
                                 </div>
                                 <div className="flex items-center justify-center ">
     
@@ -145,8 +175,9 @@ export default function Appointment({ auth }) {
             
             <AdminAuthenticated
                 user={auth.user}
-                header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Appointment</h2>}
+                header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Dashboard</h2>}
             >
+                <Dashboard/>
                 <StaffAppointment auth={auth}/>
             </AdminAuthenticated>
         )

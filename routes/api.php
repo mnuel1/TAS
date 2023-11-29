@@ -5,6 +5,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\VehiclesListController;
+use App\Http\Controllers\DashboardController;
 
 
 /*
@@ -37,3 +38,8 @@ Route::post('/staff/vehicles/add', [VehiclesListController::class, 'store']);
 
 // Delete
 Route::delete('/staff/vehicles/{id}/delete', [VehiclesListController::class, 'destroy']);
+
+
+Route::get('/dashboard/users-count', [DashboardController::class, 'getUsersCount']);
+Route::get('/dashboard/staffs-count', [DashboardController::class, 'getStaffsCount']);
+Route::get('/dashboard/vehicles-count', [DashboardController::class, 'getVehiclesCount']);
